@@ -1,0 +1,2 @@
+## Run server
+### `nodemon server`
