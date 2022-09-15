@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar";
 import Login from "./components/Login";
-import Signup from "./components/SIgnup";
+import Signup from "./components/signup/Signup";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
