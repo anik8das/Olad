@@ -20,9 +20,9 @@ export default function NavBar() {
           <Nav className='ms-auto'>
             {user.loggedIn === true && <Nav.Link as={Link} to="/logout" className='ms-auto'>Logout</Nav.Link>}
             {user.loggedIn === false && 
-            <div className='d-flex flex-row mb-1'>
-              <Nav.Link as={Link} to="/login" className='ms-auto'>Login</Nav.Link>
-              <Nav.Link as={Link} to="/signup" className='ms-auto'>Signup</Nav.Link>
+            <div className='d-flex flex-row mb-1 ms-auto'>
+              <Nav.Link as={Link} to="/login" className=''>Login</Nav.Link>
+              <Nav.Link as={Link} to="/signup" className=''>Signup</Nav.Link>
             </div>
             }
           </Nav>

@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 export default function About() {
 	return (
 		<Container className="w-50 mt-5">
-			<div className="fs-1 fw-lighter mb-4">About Us</div>
+			<div className="h1 mb-4">About Us</div>
 			<div className="fs-5 fw-light mb-5">
 				A third-party organization or mechanism, focussed exclusively on
 				peer-review and fully responsible for it — from selecting eligible
@@ -17,7 +17,7 @@ export default function About() {
 				index for reliability statistics, and allow the author as well as the
 				editor to contribute or clarify during the process.
 			</div>
-			<div className="fs-1 fw-lighter mb-4">Why does it work?</div>
+			<div className="h1 mb-4">Why does it work?</div>
 			<div className="fs-5 fw-light mb-5">
 				A third-party organization or mechanism, focussed exclusively on
 				peer-review and fully responsible for it — from selecting eligible
@@ -30,7 +30,7 @@ export default function About() {
 				index for reliability statistics, and allow the author as well as the
 				editor to contribute or clarify during the process.
 			</div>
-			<div className="fs-1 fw-lighter mb-4">Learn more</div>
+			<div className="h1 mb-4">Learn more</div>
 			<div className="fs-5 fw-light">
 				Read our white paper {" "}
 				<a
