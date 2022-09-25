@@ -1,7 +1,20 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Axios from 'axios';
+//import {useState} from 'react';
 
 export default function SignupJournal() {
+    //const [err, setErr] = useState('')
+    const createAccountJournal = (formData) => {
+        Axios.post('http://localhost:3000/createJournal',{
+            name: formData.target.form[0].value,
+            website: formData.target.form[1].value,
+            email: formData.target.form[2].value,
+            password: formData.target.form[4].value
+        }).then((res) => {
+            console.log(res)
+        })
+    }
 	return (
         <Form>
             <Form.Group className="mb-3" controlId="formBasicName">
@@ -28,7 +41,7 @@ export default function SignupJournal() {
                 <Form.Label>Confirm password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
-            <Button variant="secondary" type="submit">
+            <Button variant="secondary" onClick={createAccountJournal}>
                 Sign up
             </Button>
         </Form>
