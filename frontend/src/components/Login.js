@@ -24,7 +24,8 @@ export default function Login() {
             password: formData.target.form[1].value,
 			journal: journalToggle
         })
-		if(res.data.err === null && res.data.accountCreated === 1) {
+		if(res.data.err === null && res.data.accountExists === 1) {
+			console.log(res.data.accountDetails[0])
 			setRedirect("/dashboard");
 		}
 		else if (res.data.err != null) {

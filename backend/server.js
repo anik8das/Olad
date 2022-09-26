@@ -64,10 +64,10 @@ app.post('/login', (req,res)=>{
     const table = req.body.journal? 'journals': 'reviewers';
     const query = `SELECT * FROM ${table} WHERE email = '${req.body.email}' AND password = '${req.body.password}';`
     db.query(query, (err, result) => {
-        console.log(result.length, err)
         res.json({
             'err': err,
-            'accountCreated': result.length
+            'accountExists': result.length,
+            'accountDetails': result
         })
     })
 })
