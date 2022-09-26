@@ -1,22 +1,43 @@
 import React from "react";
-import {useState} from "react";
+import {useState, useContext} from "react";
+import { Navigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/esm/Container";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import AlertModal from "./AlertModal";
 import Axios from 'axios';
+import { UserContext } from "../contexts/UserContext";
+
 
 export default function Login() {
+	const [showModal, setShowModal] = useState(false);
+	const [modalTitle, setModalTitle] = useState("");
+	const [modalBody, setModalBody] = useState("");
 	const [journalToggle, setJournalToggle] = useState(0)
-
+	const [redirect, setRedirect] = useState(false);
+	const { user, setUser } = useContext(UserContext);
 	const login = async (formData) => {
-        const response = await Axios.post('http://localhost:3000/login',{
+        const res = await Axios.post('http://localhost:3000/login',{
             email: formData.target.form[0].value,
             password: formData.target.form[1].value,
 			journal: journalToggle
         })
-		console.log('res', response)
+		if(res.data.err === null && res.data.accountCreated === 1) {
+			setRedirect("/dashboard");
+		}
+		else if (res.data.err != null) {
+			console.log('error')
+		}
+		else {
+			console.log(res.data.err, res.data.accountCreated)
+			setModalTitle("Invalid Login Details");
+			setModalBody(
+				"Please try again, or create an account here."
+			);
+			setShowModal(true);
+		}
     }
 
 	return (
@@ -56,6 +77,13 @@ export default function Login() {
 					Login
 				</Button>
 			</Form>
+			<AlertModal
+				showVariable={showModal}
+				changeVariable={setShowModal}
+				title={modalTitle}
+				body={modalBody}
+			/>
+			{redirect && <Navigate replace to={redirect} />}
 		</Container>
 	);
 }

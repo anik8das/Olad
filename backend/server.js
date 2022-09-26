@@ -30,9 +30,6 @@ app.post('/createJournal', (req,res)=>{
     })
 })
 
-/*
-output format: (err, accountCreated: boolean)
-*/
 app.post('/createReviewer', (req,res)=>{
     var query = `INSERT INTO reviewers (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${req.body.password}');`
     db.query(query, (err, result) => {
@@ -68,6 +65,10 @@ app.post('/login', (req,res)=>{
     const query = `SELECT * FROM ${table} WHERE email = '${req.body.email}' AND password = '${req.body.password}';`
     db.query(query, (err, result) => {
         console.log(result.length, err)
+        res.json({
+            'err': err,
+            'accountCreated': result.length
+        })
     })
 })
 

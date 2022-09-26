@@ -6,7 +6,7 @@ export default function Dashboard() {
 		<Container className="w-75 mt-5">
 			<div className="h2 mb-4">Submit a Manuscript</div>
 			<Form className="mb-5">
-				<div className="d-flex justify-content-evenly text-center ">
+				<div className="d-flex justify-content-evenly text-center mb-3">
 					<Form.Group className="mb-3" controlId="formBasicWebsite">
 						<Form.Label>Manuscript Link</Form.Label>
 						<Form.Control type="text" placeholder="Enter Link" />
@@ -17,9 +17,19 @@ export default function Dashboard() {
 						<Form.Control type="file" />
 					</Form.Group>
 				</div>
+				<Form.Check 
+					type="switch"
+					id="double-blind-switch"
+					label="Double blinding"
+					className="mb-3"
+				/>
+				<Form.Group className="mb-3" controlId="formBasicWebsite">
+					<Form.Label>Number of reviewers</Form.Label>
+					<Form.Control type="text" placeholder="Enter a number or range" />
+				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicWebsite">
 					<Form.Label>(Optional) Add additional information</Form.Label>
-					<Form.Control type="text" placeholder="Enter any relevant information (Need blind review? Have a specific reviewer in mind?)" />
+					<Form.Control type="text" placeholder="Enter any relevant information (Have a specific reviewer in mind? Want multiple reviewers?)" />
 				</Form.Group>
 			</Form>
 			<div className="mb-4 d-flex flex-row">
