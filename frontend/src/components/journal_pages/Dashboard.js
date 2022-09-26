@@ -1,11 +1,29 @@
 import React from "react";
-import { Container, Table, Dropdown } from "react-bootstrap";
+import { Container, Table, Dropdown, Form, ButtonGroup } from "react-bootstrap";
 
 export default function Dashboard() {
 	return (
 		<Container className="w-75 mt-5">
+			<div className="h2 mb-4">Submit a Manuscript</div>
+			<Form className="mb-5">
+				<div className="d-flex justify-content-evenly text-center ">
+					<Form.Group className="mb-3" controlId="formBasicWebsite">
+						<Form.Label>Manuscript Link</Form.Label>
+						<Form.Control type="text" placeholder="Enter Link" />
+					</Form.Group>
+					OR
+					<Form.Group controlId="formFile" className="mb-3">
+						<Form.Label>Upload Manuscript</Form.Label>
+						<Form.Control type="file" />
+					</Form.Group>
+				</div>
+				<Form.Group className="mb-3" controlId="formBasicWebsite">
+					<Form.Label>(Optional) Add additional information</Form.Label>
+					<Form.Control type="text" placeholder="Enter any relevant information (Need blind review? Have a specific reviewer in mind?)" />
+				</Form.Group>
+			</Form>
 			<div className="mb-4 d-flex flex-row">
-				<div className="h2">Papers</div>
+				<div className="h2">Submitted Papers</div>
 				<div className="ms-auto">
 					<Dropdown>
 						<Dropdown.Toggle variant="secondary" id="dropdown-basic">

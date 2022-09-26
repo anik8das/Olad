@@ -11,11 +11,11 @@ export default function NavBar() {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">PRAAS</Navbar.Brand>
+        <Navbar.Brand href="/home">PRAAS</Navbar.Brand>
           <Nav>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-            <Nav.Link as={Link} to="/link">Account</Nav.Link>
+            <Nav.Link as={Link} to="/account">Account</Nav.Link>
           </Nav>
           <Nav className='ms-auto'>
             {user.loggedIn === true && <Nav.Link as={Link} to="/logout" className='ms-auto'>Logout</Nav.Link>}

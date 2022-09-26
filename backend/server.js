@@ -36,7 +36,6 @@ output format: (err, accountCreated: boolean)
 app.post('/createReviewer', (req,res)=>{
     var query = `INSERT INTO reviewers (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${req.body.password}');`
     db.query(query, (err, result) => {
-        console.log(result, err)
         if(err === null) {
             var interestArr = req.body.interests.length>0? req.body.interests.split(','): [];
             for (const interest of interestArr) {
