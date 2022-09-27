@@ -1,5 +1,5 @@
 import NavBar from "./components/NavBar";
-import Homepage from "./components/Homepage_test";
+import Homepage from "./components/Homepage";
 import Login from "./components/Login";
 import Signup from "./components/signup/Signup";
 import About from "./components/About";

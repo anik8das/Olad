@@ -2,7 +2,6 @@ import React from "react";
 
 export default function Homepage() {
 	return (
-        <>
 		<div
             className="text-center position-relative"
 			style={{
@@ -17,19 +16,5 @@ export default function Homepage() {
                 Welcome to the future of peer-review
             </div>
 		</div>
-		<div
-            className="text-center position-relative"
-			style={{
-				backgroundImage: "url(/bg2.jpg)",
-				backgroundPosition: "center",
-				backgroundSize: "cover",
-				backgroundRepeat: "no-repeat",
-                height: "92%"
-			}}>
-            <div className="text-light fw-lighter w-100 fs-1 bg-black p-5 position-absolute top-50 start-50 translate-middle bg-opacity-">
-                Welcome to the future of peer-review
-            </div>
-		</div>
-        </>
 	);
 }
