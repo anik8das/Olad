@@ -25,7 +25,6 @@ export default function SignupJournal() {
 				setShowModal(true);
 				setTimeout(() => {
 					setRedirect("/login");
-					console.log("ran");
 				}, 1500);
 			} else {
 				setModalTitle("Email already in use");

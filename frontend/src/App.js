@@ -1,4 +1,5 @@
 import NavBar from "./components/NavBar";
+import Homepage from "./components/Homepage_test";
 import Login from "./components/Login";
 import Signup from "./components/signup/Signup";
 import About from "./components/About";
@@ -14,11 +15,12 @@ function App() {
 		'userInfo': {}
 	})
 	return (
-		<div>
+		<div className="vh-100">
 			<UserContext.Provider value={{user, setUser}}>
 				<NavBar />
 				<Routes>
 					<Route path="/login" element={<Login />} />
+					<Route path="/home" element={<Homepage />} />					
 					<Route path="/about" element={<About />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/account" element={<Account />} />

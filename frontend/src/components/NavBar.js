@@ -9,9 +9,9 @@ export default function NavBar() {
   const { user, setUser } = useContext(UserContext);
 
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" className='' style={{height: '8%'}} variant="dark">
       <Container>
-        <Navbar.Brand href="/home">PRAAS</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/home">PRAAS</Navbar.Brand>
           <Nav>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>

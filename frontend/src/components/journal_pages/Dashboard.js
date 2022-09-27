@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Table, Dropdown, Form, ButtonGroup } from "react-bootstrap";
+import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
 
 export default function Dashboard() {
 	return (
@@ -7,12 +7,12 @@ export default function Dashboard() {
 			<div className="h2 mb-4">Submit a Manuscript</div>
 			<Form className="mb-5">
 				<div className="d-flex justify-content-evenly text-center mb-3">
-					<Form.Group className="mb-3" controlId="formBasicWebsite">
+					<Form.Group className="mb-3 w-25" controlId="formBasicWebsite">
 						<Form.Label>Manuscript Link</Form.Label>
 						<Form.Control type="text" placeholder="Enter Link" />
 					</Form.Group>
 					OR
-					<Form.Group controlId="formFile" className="mb-3">
+					<Form.Group controlId="formFile" className="mb-3 w-25">
 						<Form.Label>Upload Manuscript</Form.Label>
 						<Form.Control type="file" />
 					</Form.Group>
@@ -30,6 +30,11 @@ export default function Dashboard() {
 				<Form.Group className="mb-3" controlId="formBasicWebsite">
 					<Form.Label>(Optional) Add additional information</Form.Label>
 					<Form.Control type="text" placeholder="Enter any relevant information (Have a specific reviewer in mind? Want multiple reviewers?)" />
+				</Form.Group>
+				<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
+					<Button variant="secondary" type="submit">
+						Submit
+					</Button>
 				</Form.Group>
 			</Form>
 			<div className="mb-4 d-flex flex-row">
