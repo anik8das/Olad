@@ -19,20 +19,24 @@ export default function Login() {
 	const [redirect, setRedirect] = useState(false);
 	const { user, setUser } = useContext(UserContext);
 	const login = async (formData) => {
+		console.log(formData)
         const res = await Axios.post('http://localhost:3000/login',{
-            email: formData.target.form[0].value,
-            password: formData.target.form[1].value,
+            email: formData.target.form[2].value,
+            password: formData.target.form[3].value,
 			journal: journalToggle
         })
 		if(res.data.err === null && res.data.accountExists === 1) {
-			console.log(res.data.accountDetails[0])
+			await setUser({
+				loggedIn: true,
+				userInfo: res.data.accountDetails[0]
+			})
+			console.log(user)
 			setRedirect("/dashboard");
 		}
 		else if (res.data.err != null) {
 			console.log('error')
 		}
 		else {
-			console.log(res.data.err, res.data.accountCreated)
 			setModalTitle("Invalid Login Details");
 			setModalBody(
 				"Please try again, or create an account here."
@@ -44,6 +48,26 @@ export default function Login() {
 	return (
 		<Container className="w-50 mt-5">
 			<Form>
+				<Form.Group className="mb-3" controlId="formBasicToggle">
+					<ButtonGroup>
+						<ToggleButton
+							key={0}
+							type="radio"
+							variant="secondary"
+							checked={journalToggle === 0}
+							onClick={() => setJournalToggle(0)}>
+							Journal
+						</ToggleButton>
+						<ToggleButton
+							key={1}
+							type="radio"
+							variant="secondary"
+							checked={journalToggle === 1}
+							onClick={() => setJournalToggle(1)}>
+							Reviewer
+						</ToggleButton>
+					</ButtonGroup>
+				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Email address</Form.Label>
 					<Form.Control type="email" placeholder="Enter email" />
@@ -51,28 +75,6 @@ export default function Login() {
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
 					<Form.Control type="password" placeholder="Password" />
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="formBasicToggle">
-					<ButtonGroup className="mb-2">`
-						<ToggleButton
-							key={0}
-							type="radio"
-							variant="secondary"
-							checked={journalToggle === 0}
-							onClick={()=>setJournalToggle(0)}
-						>
-							Reviewer
-						</ToggleButton>
-						<ToggleButton
-							key={1}
-							type="radio"
-							variant="secondary"
-							checked={journalToggle === 1}
-							onClick={()=>setJournalToggle(1)}
-						>
-							Journal
-						</ToggleButton>
-					</ButtonGroup>`
 				</Form.Group>
 				<Button variant="secondary" onClick={login}>
 					Login

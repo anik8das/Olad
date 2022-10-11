@@ -28,6 +28,7 @@ app.post('/createJournal', (req,res)=>{
     db.query(query, (err, result) => {
         res.send(err)
     })
+    console.log(`new journal created for email ${req.body.email}`)
 })
 
 app.post('/createReviewer', (req,res)=>{
@@ -64,11 +65,35 @@ app.post('/login', (req,res)=>{
     const table = req.body.journal? 'journals': 'reviewers';
     const query = `SELECT * FROM ${table} WHERE email = '${req.body.email}' AND password = '${req.body.password}';`
     db.query(query, (err, result) => {
+        console.log(err, result, req.body)
         res.json({
             'err': err,
             'accountExists': result.length,
             'accountDetails': result
         })
+    })
+})
+
+app.get('/allPapersJournal/:id', (req,res)=>{
+    const query = `SELECT * FROM papers WHERE journal_id = '${req.params.id}';`
+    db.query(query, (err, result) => {
+        console.log(err, result, req.body)
+        res.json({
+            'err': err,
+            'papers': result,
+        })
+    })
+    console.log(`all papers requested for journal id ${req.params.id}`)
+})
+
+app.post('/submitPaper', (req,res) => {
+    var date = new Date();
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    const query = `INSERT INTO papers (title, journal_id, reviewed, submission_date, link, matched, double_blind, open_review) VALUES ('${req.body.title}', '${req.body.journal_id}', '0', '${yyyy+mm+dd}', '${req.body.link}', '0', '${req.body.doubleBlind}', '${req.body.openReview}');` 
+    db.query(query, (err, result) => {
+        res.send(err)
     })
 })
 

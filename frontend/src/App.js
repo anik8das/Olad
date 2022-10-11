@@ -1,6 +1,7 @@
 import NavBar from "./components/NavBar";
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Signup from "./components/signup/Signup";
 import About from "./components/About";
 import Dashboard from "./components/journal_pages/Dashboard";
@@ -20,11 +21,12 @@ function App() {
 				<NavBar />
 				<Routes>
 					<Route path="/login" element={<Login />} />
-					<Route path="/home" element={<Homepage />} />					
+					<Route path="/" element={<Homepage />} />					
 					<Route path="/about" element={<About />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/account" element={<Account />} />
 					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/logout" element={<Logout />} />
 				</Routes>
 			</UserContext.Provider>
 		</div>

@@ -1,95 +1,152 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
+import Axios from "axios";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
+	const { user, setUser } = useContext(UserContext);
+
+	const getPapers = async () => {
+		console.log('userr', user)
+		const res = await Axios.get(`http://localhost:3000/allPapersJournal/${user.userInfo.id}`);
+		if (res.data.err === null) {
+			console.log(res.data);
+		}
+	};
+
+	const submitPaper = async (formData) => {
+		console.log(formData);
+		var link = formData.target.form[0].value;
+		var file = formData.target.form[1].files[0];
+		var doubleBlind = formData.target.form[2].checked;
+		var openReview = formData.target.form[3].checked;
+		var title = formData.target.form[4].value;
+		var info = formData.target.form[5].value;
+
+		const res = await Axios.post("http://localhost:3000/submitPaper", {
+			journal_id: user.userInfo.id,
+			title: title,
+			openReview: openReview,
+			doubleBlind: doubleBlind,
+			link: link,
+			info: info,
+		});
+		if (res.data === "") {
+			console.log("Paper uploaded");
+		}
+	};
+
+	getPapers();
+
 	return (
-		<Container className="w-75 mt-5">
-			<div className="h2 mb-4">Submit a Manuscript</div>
-			<Form className="mb-5">
-				<div className="d-flex justify-content-evenly text-center mb-3">
-					<Form.Group className="mb-3 w-25" controlId="formBasicWebsite">
-						<Form.Label>Manuscript Link</Form.Label>
-						<Form.Control type="text" placeholder="Enter Link" />
+		<div
+			style={{
+				backgroundImage: "url(/dashboardBg.jpg)",
+				backgroundPosition: "center",
+				backgroundSize: "cover",
+				backgroundRepeat: "no-repeat",
+				backgroundAttachment: "fixed",
+				height: "92%",
+			}}>
+			<Container className="w-75 pt-5">
+				<div className="h2 mb-4">Submit a Manuscript</div>
+				<Form className="mb-4">
+					<div className="d-flex justify-content-evenly text-center mb-3">
+						<Form.Group className="mb-3 w-25" controlId="formBasicWebsite">
+							<Form.Label>Manuscript Link</Form.Label>
+							<Form.Control type="text" placeholder="Enter Link" />
+						</Form.Group>
+						OR
+						<Form.Group controlId="formFile" className="mb-3 w-25">
+							<Form.Label>Upload PDF</Form.Label>
+							<Form.Control type="file" />
+						</Form.Group>
+					</div>
+					<div className="d-flex justify-content-evenly">
+						<Form.Check
+							type="switch"
+							id="double-blind-switch"
+							label="Double blinding"
+							className="mb-3"
+						/>
+						<Form.Check
+							type="switch"
+							id="open-review-switch"
+							label="Open to Journal"
+							className="mb-3"
+						/>
+					</div>
+					<Form.Group className="mb-3" controlId="formBasicWebsite">
+						<Form.Label>Manuscript Title</Form.Label>
+						<Form.Control type="text" placeholder="Paper Title" />
 					</Form.Group>
-					OR
-					<Form.Group controlId="formFile" className="mb-3 w-25">
-						<Form.Label>Upload Manuscript</Form.Label>
-						<Form.Control type="file" />
+					<Form.Group className="mb-4" controlId="formBasicWebsite">
+						<Form.Label>(Optional) Add additional information</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="Enter any relevant information (Have a specific reviewer in mind? Want multiple reviewers?)"
+						/>
 					</Form.Group>
+					<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
+						<Button variant="secondary" onClick={submitPaper} type="submit">
+							Submit
+						</Button>
+					</Form.Group>
+				</Form>
+				<div className="mb-4 d-flex flex-row">
+					<div className="h2">Submitted Papers</div>
+					<div className="ms-auto">
+						<Dropdown>
+							<Dropdown.Toggle variant="secondary" id="dropdown-basic">
+								Filter by
+							</Dropdown.Toggle>
+							<Dropdown.Menu className="text-center">
+								<Dropdown.Item href="#/action-1">All</Dropdown.Item>
+								<Dropdown.Item href="#/action-2">Submitted</Dropdown.Item>
+								<Dropdown.Item href="#/action-3">In progress</Dropdown.Item>
+								<Dropdown.Item href="#/action-3">Completed</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
+					</div>
 				</div>
-				<Form.Check 
-					type="switch"
-					id="double-blind-switch"
-					label="Double blinding"
-					className="mb-3"
-				/>
-				<Form.Group className="mb-3" controlId="formBasicWebsite">
-					<Form.Label>Number of reviewers</Form.Label>
-					<Form.Control type="text" placeholder="Enter a number or range" />
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="formBasicWebsite">
-					<Form.Label>(Optional) Add additional information</Form.Label>
-					<Form.Control type="text" placeholder="Enter any relevant information (Have a specific reviewer in mind? Want multiple reviewers?)" />
-				</Form.Group>
-				<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
-					<Button variant="secondary" type="submit">
-						Submit
-					</Button>
-				</Form.Group>
-			</Form>
-			<div className="mb-4 d-flex flex-row">
-				<div className="h2">Submitted Papers</div>
-				<div className="ms-auto">
-					<Dropdown>
-						<Dropdown.Toggle variant="secondary" id="dropdown-basic">
-							Filter by
-						</Dropdown.Toggle>
-						<Dropdown.Menu className="text-center">
-							<Dropdown.Item href="#/action-1">All</Dropdown.Item>
-							<Dropdown.Item href="#/action-2">Submitted</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">In progress</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">Completed</Dropdown.Item>
-						</Dropdown.Menu>
-					</Dropdown>
-				</div>
-			</div>
-			<Table hover>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Status</th>
-						<th>Link</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>
-							Genesis: The next big thing for evolutionary gene modification for
-							the next generation.
-						</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						<td>GDoc</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>GDoc</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>GDoc</td>
-					</tr>
-				</tbody>
-			</Table>
-		</Container>
+				<Table hover>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Status</th>
+							<th>Link</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>
+								Genesis: The next big thing for evolutionary gene modification
+								for the next generation.
+							</td>
+							<td>Otto</td>
+							<td>@mdo</td>
+							<td>GDoc</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>@fat</td>
+							<td>GDoc</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>@fat</td>
+							<td>GDoc</td>
+						</tr>
+					</tbody>
+				</Table>
+			</Container>
+		</div>
 	);
 }

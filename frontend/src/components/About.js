@@ -3,7 +3,15 @@ import Container from "react-bootstrap/Container";
 
 export default function About() {
 	return (
-		<Container className="w-50 mt-5">
+		<div 
+		style={{
+			backgroundImage: "url(/aboutBg.jpg)",
+			backgroundPosition: "center",
+			backgroundSize: "cover",
+			backgroundRepeat: "no-repeat",
+			backgroundAttachment: "fixed",
+		}}>
+		<Container className="w-50 pt-5 pb-5">
 			<div className="h1 mb-4">About Us</div>
 			<div className="fs-5 fw-light mb-5">
 				A third-party organization or mechanism, focussed exclusively on
@@ -43,5 +51,6 @@ export default function About() {
 				additional follow-ups, please contact us at aniketdas001@gmail.com
 			</div>
 		</Container>
+        </div>
 	);
 }
