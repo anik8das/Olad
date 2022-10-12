@@ -1,14 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
 import Axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
 	const { user, setUser } = useContext(UserContext);
+	const [papers, setPapers] = useState([]);
+
+	useEffect(() => {
+		const getPapers = async () => {
+			console.log("userr", user);
+			const res = await Axios.get(
+				`http://localhost:3000/allPapersJournal/${user.userInfo.id}`
+			);
+			if (res.data.err === null) {
+				setPapers(res.data.papers);
+			} else {
+				// setModalTitle("Email already in use");
+				// setModalBody(
+				// 	"Please use another email or login here. Contact us here if you think this is a mistake."
+				// );
+				// setShowModal(true);
+			}
+		};
+		getPapers();
+	}, [user]);
 
 	const getPapers = async () => {
-		console.log('userr', user)
-		const res = await Axios.get(`http://localhost:3000/allPapersJournal/${user.userInfo.id}`);
+		console.log("userr", user);
+		const res = await Axios.get(
+			`http://localhost:3000/allPapersJournal/${user.userInfo.id}`
+		);
 		if (res.data.err === null) {
 			console.log(res.data);
 		}
@@ -114,36 +136,25 @@ export default function Dashboard() {
 						<tr>
 							<th>#</th>
 							<th>Title</th>
-							<th>Author</th>
 							<th>Status</th>
+							<th>Open</th>
+							<th>Blind</th>
 							<th>Link</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>
-								Genesis: The next big thing for evolutionary gene modification
-								for the next generation.
-							</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>GDoc</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>GDoc</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>GDoc</td>
-						</tr>
+						{papers.map(function (object, i) {
+							return (
+								<tr>
+									<td>{i}</td>
+									<td>{object.title}noaiw fa;wkdfmalkwn imoan oifanlkmw fokmaomw f;amonf3qkl</td>
+									<td>{object.status}</td>
+									<td>{object.open_review}</td>
+									<td>{object.double_blind}</td>
+									<td>{object.link}</td>
+								</tr>
+							);
+						})}
 					</tbody>
 				</Table>
 			</Container>
