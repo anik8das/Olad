@@ -15,7 +15,7 @@ export default function Login() {
 	const [showModal, setShowModal] = useState(false);
 	const [modalTitle, setModalTitle] = useState("");
 	const [modalBody, setModalBody] = useState("");
-	const [journalToggle, setJournalToggle] = useState(0)
+	const [journalToggle, setJournalToggle] = useState(1)
 	const [redirect, setRedirect] = useState(false);
 	const { user, setUser } = useContext(UserContext);
 	const login = async (formData) => {
@@ -25,7 +25,7 @@ export default function Login() {
             password: formData.target.form[3].value,
 			journal: journalToggle
         })
-		if(res.data.err === null && res.data.accountExists === 1) {
+		if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 1) {
 			await setUser({
 				loggedIn: true,
 				userInfo: res.data.accountDetails[0]
@@ -33,11 +33,23 @@ export default function Login() {
 			console.log(user)
 			setRedirect("/dashboard");
 		}
+		else if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 0){
+			setModalTitle("Incorrect password");
+			setModalBody(
+				"Please try again, or reset your password here"
+			);
+			setShowModal(true);
+		}
 		else if (res.data.err != null) {
+			setModalTitle("Internal server error");
+			setModalBody(
+				"Please try again"
+			);
+			setShowModal(true);
 			console.log('error')
 		}
 		else {
-			setModalTitle("Invalid Login Details");
+			setModalTitle("No account exists with this email");
 			setModalBody(
 				"Please try again, or create an account here."
 			);
@@ -51,19 +63,19 @@ export default function Login() {
 				<Form.Group className="mb-3" controlId="formBasicToggle">
 					<ButtonGroup>
 						<ToggleButton
-							key={0}
-							type="radio"
-							variant="secondary"
-							checked={journalToggle === 0}
-							onClick={() => setJournalToggle(0)}>
-							Journal
-						</ToggleButton>
-						<ToggleButton
 							key={1}
 							type="radio"
 							variant="secondary"
 							checked={journalToggle === 1}
 							onClick={() => setJournalToggle(1)}>
+							Journal
+						</ToggleButton>
+						<ToggleButton
+							key={0}
+							type="radio"
+							variant="secondary"
+							checked={journalToggle === 0}
+							onClick={() => setJournalToggle(0)}>
 							Reviewer
 						</ToggleButton>
 					</ButtonGroup>

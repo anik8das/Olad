@@ -7,11 +7,11 @@ const e = require("express");
 require("dotenv").config();
 
 const saltRounds = 10;
-const db = mysql.createPool({
+const db = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "yoyohone",
-	database: "PRAASDB",
+	password: process.env.PASSWORD,
+	database: process.env.DATABASE,
 });
 
 const app = express();
@@ -26,52 +26,51 @@ app.get("/", (req, res) => {
 });
 
 app.post("/createJournal", (req, res) => {
-	bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-		if (err) {
-			res.send(err);
-		} else {
-			const query = `INSERT INTO journals (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${hash}');`;
-			db.query(query, (errDb, result) => {
-				res.send(errDb);
-			});
-			console.log(`new journal created for email ${req.body.email}`);
-		}
+	bcrypt.hash(req.body.password, saltRounds, (_, hash) => {
+		const query = `INSERT INTO journals (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${hash}');`;
+		db.query(query, (errDb, result) => {
+			res.send(errDb);
+		});
+		console.log(`new journal created for email ${req.body.email}`);
 	});
 });
 
 app.post("/createReviewer", (req, res) => {
-	var query = `INSERT INTO reviewers (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${req.body.password}');`;
-	db.query(query, (err, result) => {
-		if (err === null) {
-			var interestArr =
-				req.body.interests.length > 0 ? req.body.interests.split(",") : [];
-			for (const interest of interestArr) {
-				query = `INSERT INTO interests (reviewer_id, interest) VALUES(${result.insertId}, '${interest}')`;
-				db.query(query, (errInterest, resultInterest) => {
-					if (errInterest != null) {
-						res.json({
-							err: errInterest,
-							accountCreated: 1,
-						});
-					}
+	bcrypt.hash(req.body.password, saltRounds, (_, hash) => {
+		var query = `INSERT INTO reviewers (name, email, website, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.website}', '${hash}');`;
+		db.query(query, (err, result) => {
+			if (err === null) {
+                console.log(`reviewer account created for ${req.body.email}`)
+				var interestArr =
+					req.body.interests.length > 0 ? req.body.interests.split(",") : [];
+				for (const interest of interestArr) {
+					query = `INSERT INTO interests (reviewer_id, interest) VALUES(${result.insertId}, '${interest}')`;
+					db.query(query, (errInterest, resultInterest) => {
+						if (errInterest != null) {
+							res.json({
+								err: errInterest,
+								accountCreated: 1,
+							});
+						}
+					});
+				}
+				res.json({
+					err: err,
+					accountCreated: 1,
+				});
+			} else {
+                console.log(err)
+				res.json({
+					err: err,
+					accountCreated: 0,
 				});
 			}
-			res.json({
-				err: err,
-				accountCreated: 1,
-			});
-		} else {
-			res.json({
-				err: err,
-				accountCreated: 0,
-			});
-		}
+		});
 	});
 });
 
 app.post("/login", (req, res) => {
 	const table = req.body.journal ? "journals" : "reviewers";
-
 	const query = `SELECT * FROM ${table} WHERE email = '${req.body.email}';`;
 	db.query(query, (err, result) => {
 		console.log(err, result, req.body);
@@ -81,30 +80,31 @@ app.post("/login", (req, res) => {
 				result[0].password,
 				(error, response) => {
 					if (response) {
-						req.session.user = result;
-						console.log(req.session.user);
+						// req.session.user = result;
+						// console.log(req.session.user);
 						res.send({
 							err: err,
 							accountExists: result.length,
-                            passwordCorrect: 1,
+							passwordCorrect: 1,
 							accountDetails: result,
 						});
 					} else {
 						res.send({
 							err: err,
 							accountExists: result.length,
-                            passwordCorrect: 0,
+							passwordCorrect: 0,
 							accountDetails: result,
 						});
 					}
 				}
 			);
+		} else {
+			res.json({
+				err: err,
+				accountExists: result.length,
+				accountDetails: result,
+			});
 		}
-		res.json({
-			err: err,
-			accountExists: result.length,
-			accountDetails: result,
-		});
 	});
 });
 
