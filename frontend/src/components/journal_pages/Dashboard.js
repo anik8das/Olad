@@ -32,7 +32,8 @@ export default function Dashboard() {
 			`http://localhost:3000/allPapersJournal/${user.userInfo.id}`
 		);
 		if (res.data.err === null) {
-			console.log(res.data);
+			setPapers(res.data.papers)
+			console.log(res.data.papers);
 		}
 	};
 
@@ -55,10 +56,9 @@ export default function Dashboard() {
 		});
 		if (res.data === "") {
 			console.log("Paper uploaded");
+			getPapers()
 		}
 	};
-
-	getPapers();
 
 	return (
 		<div
@@ -68,7 +68,8 @@ export default function Dashboard() {
 				backgroundSize: "cover",
 				backgroundRepeat: "no-repeat",
 				backgroundAttachment: "fixed",
-				height: "92%",
+				paddingBottom: "1%",
+				minHeight: "92%"
 			}}>
 			<Container className="w-75 pt-5">
 				<div className="h2 mb-4">Submit a Manuscript</div>
@@ -110,7 +111,7 @@ export default function Dashboard() {
 						/>
 					</Form.Group>
 					<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
-						<Button variant="secondary" onClick={submitPaper} type="submit">
+						<Button variant="secondary" onClick={submitPaper}>
 							Submit
 						</Button>
 					</Form.Group>
