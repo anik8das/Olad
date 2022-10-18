@@ -148,7 +148,7 @@ export default function Dashboard() {
 							return (
 								<tr>
 									<td>{i}</td>
-									<td>{object.title}noaiw fa;wkdfmalkwn imoan oifanlkmw fokmaomw f;amonf3qkl</td>
+									<td>{object.title}</td>
 									<td>{object.status}</td>
 									<td>{object.open_review}</td>
 									<td>{object.double_blind}</td>

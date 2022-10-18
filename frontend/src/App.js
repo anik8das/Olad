@@ -8,20 +8,33 @@ import Dashboard from "./components/journal_pages/Dashboard";
 import Account from "./components/journal_pages/Account";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "./contexts/UserContext";
-import {useState} from 'react';
+import { useState, useEffect } from "react";
+import Axios from "axios";
 
 function App() {
 	const [user, setUser] = useState({
-		'loggedIn': false,
-		'userInfo': {}
-	})
+		loggedIn: false,
+		userInfo: {},
+	});
+
+	Axios.defaults.withCredentials = true;
+	useEffect(() => {
+		const loggedIn = async () => {
+			const res = await Axios.get("http://localhost:3000/login");
+			if (res.data.loggedIn === true) {
+				setUser(res.data)
+			}
+		};
+		loggedIn();
+	}, []);
+
 	return (
 		<div className="vh-100">
-			<UserContext.Provider value={{user, setUser}}>
+			<UserContext.Provider value={{ user, setUser }}>
 				<NavBar />
 				<Routes>
 					<Route path="/login" element={<Login />} />
-					<Route path="/" element={<Homepage />} />					
+					<Route path="/" element={<Homepage />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/account" element={<Account />} />
