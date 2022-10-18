@@ -6,34 +6,14 @@ import { UserContext } from "../../contexts/UserContext";
 export default function Dashboard() {
 	const { user, setUser } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
-
-	useEffect(() => {
-		const getPapers = async () => {
-			console.log("userr", user);
-			const res = await Axios.get(
-				`http://localhost:3000/allPapersJournal/${user.userInfo.id}`
-			);
-			if (res.data.err === null) {
-				setPapers(res.data.papers);
-			} else {
-				// setModalTitle("Email already in use");
-				// setModalBody(
-				// 	"Please use another email or login here. Contact us here if you think this is a mistake."
-				// );
-				// setShowModal(true);
-			}
-		};
-		getPapers();
-	}, [user]);
+	const [filter, setFilter] = useState(-1);
 
 	const getPapers = async () => {
-		console.log("userr", user);
 		const res = await Axios.get(
-			`http://localhost:3000/allPapersJournal/${user.userInfo.id}`
+			`http://localhost:3000/getPapersJournal/${user.userInfo.id}/${filter}`
 		);
 		if (res.data.err === null) {
-			setPapers(res.data.papers)
-			console.log(res.data.papers);
+			setPapers(res.data.papers);
 		}
 	};
 
@@ -56,9 +36,14 @@ export default function Dashboard() {
 		});
 		if (res.data === "") {
 			console.log("Paper uploaded");
-			getPapers()
+			getPapers();
 		}
 	};
+
+	useEffect(() => {
+		getPapers();
+		console.log('filter', filter)
+	}, [filter]);
 
 	return (
 		<div
@@ -69,7 +54,7 @@ export default function Dashboard() {
 				backgroundRepeat: "no-repeat",
 				backgroundAttachment: "fixed",
 				paddingBottom: "1%",
-				minHeight: "92%"
+				minHeight: "92%",
 			}}>
 			<Container className="w-75 pt-5">
 				<div className="h2 mb-4">Submit a Manuscript</div>
@@ -107,7 +92,7 @@ export default function Dashboard() {
 						<Form.Label>(Optional) Add additional information</Form.Label>
 						<Form.Control
 							type="text"
-							placeholder="Enter any relevant information (Have a specific reviewer in mind? Want multiple reviewers?)"
+							placeholder="Enter any relevant information (Have a specific reviewer in mind? Want specific formatting?)"
 						/>
 					</Form.Group>
 					<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
@@ -124,10 +109,11 @@ export default function Dashboard() {
 								Filter by
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item href="#/action-1">All</Dropdown.Item>
-								<Dropdown.Item href="#/action-2">Submitted</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">In progress</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">Completed</Dropdown.Item>
+								<Dropdown.Item onClick={()=>setFilter(-1)} href="#/action-1">All</Dropdown.Item>
+								<Dropdown.Item onClick={()=>setFilter(0)} href="#/action-2">Submitted</Dropdown.Item>
+								<Dropdown.Item onClick={()=>setFilter(1)} href="#/action-2">Assigned</Dropdown.Item>
+								<Dropdown.Item onClick={()=>setFilter(2)} href="#/action-3">In progress</Dropdown.Item>
+								<Dropdown.Item onClick={()=>setFilter(3)} href="#/action-3">Completed</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
 					</div>

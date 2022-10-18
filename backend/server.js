@@ -47,13 +47,25 @@ app.get("/", (req, res) => {
 
 app.get("/login", require('./handlers/getLogin'));
 
+app.get("/getPapersJournal/:id/:status", require('./handlers/getPapersJournal'));
+
+app.get("/getPendingPapers", (req, res) => {
+	const query = `SELECT * FROM papers WHERE status = '0';`;
+	db.query(query, (err, result) => {
+		console.log('res', result)
+		res.json({
+			err: err,
+			papers: result,
+		});
+	});
+	console.log(`Pending papers requested`);
+})
+
 app.post("/createJournal", require('./handlers/createJournal'));
 
 app.post("/createReviewer", require('./handlers/createReviewer'));
 
 app.post("/login", require('./handlers/login'));
-
-app.get("/allPapersJournal/:id", require('./handlers/getAllPapersJournal'));
 
 app.post("/submitPaper", require('./handlers/submitPaper'));
 
