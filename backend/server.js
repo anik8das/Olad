@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -9,12 +8,7 @@ const e = require("express");
 require("dotenv").config();
 
 const saltRounds = 10;
-const db = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: process.env.PASSWORD,
-	database: process.env.DATABASE,
-});
+const db = require("./db");
 
 const app = express();
 app.use(bodyParser.urlencoded({ encoded: true }));
@@ -43,31 +37,35 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
 	console.log("server requested");
+	res.send("Hello there!");
 });
 
-app.get("/login", require('./handlers/getLogin'));
+app.get("/login", require("./handlers/getLogin"));
 
-app.get("/getPapersJournal/:id/:status", require('./handlers/getPapersJournal'));
+app.get(
+	"/getPapersJournal/:id/:status",
+	require("./handlers/getPapersJournal")
+);
 
 app.get("/getPendingPapers", (req, res) => {
 	const query = `SELECT * FROM papers WHERE status = '0';`;
 	db.query(query, (err, result) => {
-		console.log('res', result)
+		console.log("res", result);
 		res.json({
 			err: err,
 			papers: result,
 		});
 	});
 	console.log(`Pending papers requested`);
-})
+});
 
-app.post("/createJournal", require('./handlers/createJournal'));
+app.post("/createJournal", require("./handlers/createJournal"));
 
-app.post("/createReviewer", require('./handlers/createReviewer'));
+app.post("/createReviewer", require("./handlers/createReviewer"));
 
-app.post("/login", require('./handlers/login'));
+app.post("/login", require("./handlers/login"));
 
-app.post("/submitPaper", require('./handlers/submitPaper'));
+app.post("/submitPaper", require("./handlers/submitPaper"));
 
 app.listen(port, () => {
 	console.log(`Server is running on port: ${port}`);
