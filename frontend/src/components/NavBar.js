@@ -27,6 +27,11 @@ export default function NavBar() {
 							Account
 						</Nav.Link>
 					)}
+					{user.loggedIn === true && (
+						<Nav.Link as={Link} to="/reviewers">
+							Reviewers
+						</Nav.Link>
+					)}
 				</Nav>
 				<Nav className="ms-auto">
 					{user.loggedIn === true && (

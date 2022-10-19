@@ -4,7 +4,8 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Signup from "./components/signup/Signup";
 import About from "./components/About";
-import Dashboard from "./components/journal_pages/Dashboard";
+import Dashboard from "./components/admin_pages/Dashboard";
+import Reviewers from "./components/admin_pages/Reviewers";
 import Account from "./components/journal_pages/Account";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "./contexts/UserContext";
@@ -40,6 +41,7 @@ function App() {
 					<Route path="/account" element={<Account />} />
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/logout" element={<Logout />} />
+					<Route path="/reviewers" element={<Reviewers />} />
 				</Routes>
 			</UserContext.Provider>
 		</div>
