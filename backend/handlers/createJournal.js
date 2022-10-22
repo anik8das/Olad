@@ -2,12 +2,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const db = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: process.env.PASSWORD,
-	database: process.env.DATABASE,
-});
+const db = require("../db");
 
 const createJournal = (req, res) => {
 	bcrypt.hash(req.body.password, saltRounds, (_, hash) => {

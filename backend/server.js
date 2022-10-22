@@ -59,6 +59,8 @@ app.get("/getPendingPapers", (req, res) => {
 	console.log(`Pending papers requested`);
 });
 
+app.get("/getReviewers", require("./handlers/getReviewers"));
+
 app.post("/createJournal", require("./handlers/createJournal"));
 
 app.post("/createReviewer", require("./handlers/createReviewer"));

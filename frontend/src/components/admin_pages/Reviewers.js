@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Axios } from "axios";
-import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import { Container, Card, Row, Col } from "react-bootstrap";
 
 export default function Reviewers() {
 	const [reviewers, setReviewers] = useState([]);
@@ -10,75 +9,36 @@ export default function Reviewers() {
 	const getReviewers = async () => {
 		const res = await Axios.get(`http://localhost:3000/getReviewers/${filter}`);
 		if (res.data.err === null) {
+			console.log(res.data)
 			setReviewers(res.data.reviewers);
 		}
 	};
 
+	useEffect(() => {
+		getReviewers();
+	}, []);
+
+
 	return (
-		<CardGroup>
-			<Card>
-				<Card.Body>
-					<Card.Title>Card title</Card.Title>
-					<Card.Text>
-						This is a wider card with supporting text below as a natural lead-in
-						to additional content. This content is a little bit longer.
-					</Card.Text>
-				</Card.Body>
-				<Card.Footer>
-					<small className="text-muted">Last updated 3 mins ago</small>
-				</Card.Footer>
-			</Card>
-			<Card>
-				<Card.Body>
-					<Card.Title>Card title</Card.Title>
-					<Card.Text>
-						This card has supporting text below as a natural lead-in to
-						additional content.{" "}
-					</Card.Text>
-				</Card.Body>
-				<Card.Footer>
-					<small className="text-muted">Last updated 3 mins ago</small>
-				</Card.Footer>
-			</Card>
-			<Card>
-				<Card.Body>
-					<Card.Title>Card title</Card.Title>
-					<Card.Text>
-						This is a wider card with supporting text below as a natural lead-in
-						to additional content. This card has even longer content than the
-						first to show that equal height action.
-					</Card.Text>
-				</Card.Body>
-				<Card.Footer>
-					<small className="text-muted">Last updated 3 mins ago</small>
-				</Card.Footer>
-			</Card>
-			<Card>
-				<Card.Body>
-					<Card.Title>Card title</Card.Title>
-					<Card.Text>
-						This is a wider card with supporting text below as a natural lead-in
-						to additional content. This card has even longer content than the
-						first to show that equal height action.
-					</Card.Text>
-				</Card.Body>
-				<Card.Footer>
-					<small className="text-muted">Last updated 3 mins ago</small>
-				</Card.Footer>
-			</Card>
-			<Card>
-				<Card.Body>
-					<Card.Title>Card title</Card.Title>
-					<Card.Text>
-						This is a wider card with supporting text below as a natural lead-in
-						to additional content. This card has even longer content than the
-						first to show that equal height action.
-					</Card.Text>
-				</Card.Body>
-				<Card.Footer>
-					<small className="text-muted">Last updated 3 mins ago</small>
-				</Card.Footer>
-			</Card>
-		</CardGroup>
+		<Container className="w-75 pt-5">
+			<Row xs={2} md={3} className="g-4">
+				{reviewers.map((item, idx) => (
+					<Col>
+						<Card className="h-100">
+							<Card.Body>
+								<Card.Title>{item.name}</Card.Title>
+								<Card.Text>
+									<span class="fw-bold">ID: </span>{item.id} <br/>
+									<span class="fw-bold">Website: </span>{item.website} <br/>
+									<span class="fw-bold">Interests: </span>{item.interests.map((interestItem, idx) => (
+										idx === item.interests.length-1? interestItem.interest: interestItem.interest+', '
+									))}
+								</Card.Text>
+							</Card.Body>
+						</Card>
+					</Col>
+				))}
+			</Row>
+		</Container>
 	);
 }

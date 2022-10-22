@@ -1,12 +1,7 @@
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 
-const db = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: process.env.PASSWORD,
-	database: process.env.DATABASE,
-});
+const db = require("../db");
 
 const login = (req, res) => {
 	const table = req.body.journal ? "journals" : "reviewers";
