@@ -8,7 +8,7 @@ const e = require("express");
 require("dotenv").config();
 
 const saltRounds = 10;
-const db = require("./db");
+const db = require("./db_local");
 
 const app = express();
 app.use(bodyParser.urlencoded({ encoded: true }));
@@ -59,7 +59,9 @@ app.get("/getPendingPapers", (req, res) => {
 	console.log(`Pending papers requested`);
 });
 
-app.get("/getReviewers", require("./handlers/getReviewers"));
+app.get("/getReviewers/:interest?", require("./handlers/getReviewers"));
+
+app.get("/getInterests", require("./handlers/getInterests"));
 
 app.post("/createJournal", require("./handlers/createJournal"));
 

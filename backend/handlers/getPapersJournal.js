@@ -2,10 +2,10 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const db = require("../db");
+const db = require("../db_local");
 
 const getAllPapersJournal = (req, res) => {
-	var query = `SELECT * FROM papers WHERE journal_id = '${req.params.id}'`;
+	var query = `SELECT * FROM papers WHERE journal_id = '${req.params.id}';`;
 	if(req.params.status == -1) {
 		query += ';'
 	}

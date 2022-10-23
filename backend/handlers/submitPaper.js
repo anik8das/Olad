@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 
-const db = require("../db");
+const db = require("../db_local");
 
 const submitPaper = (req, res) => {
 	var date = new Date();

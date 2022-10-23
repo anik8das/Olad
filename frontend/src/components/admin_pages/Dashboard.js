@@ -2,17 +2,17 @@ import React, { useContext, useState, useEffect } from "react";
 import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
 import Axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
+import Select from "react-select";
 
 export default function Dashboard() {
 	const { user, setUser } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
+	const [reviewers, setReviewers] = useState([]);
 
 	useEffect(() => {
 		const getPendingPapers = async () => {
 			console.log("userr", user);
-			const res = await Axios.get(
-				`http://localhost:3000/getPendingPapers`
-			);
+			const res = await Axios.get(`http://localhost:3000/getPendingPapers`);
 			if (res.data.err === null) {
 				setPapers(res.data.papers);
 			} else {
@@ -23,7 +23,20 @@ export default function Dashboard() {
 				// setShowModal(true);
 			}
 		};
+		const getReviewers = async () => {
+			const res = await Axios.get(`http://localhost:3000/getReviewers`);
+			if (res.data.err === null) {
+				console.log(res.data);
+				setReviewers(
+					res.data.reviewers.map((reviewer) => ({
+						value: reviewer.name,
+						label: reviewer.name,
+					}))
+				);
+			}
+		};
 		getPendingPapers();
+		getReviewers()
 	}, [user]);
 
 	return (
@@ -35,7 +48,7 @@ export default function Dashboard() {
 				backgroundRepeat: "no-repeat",
 				backgroundAttachment: "fixed",
 				paddingBottom: "1%",
-				minHeight: "92%"
+				minHeight: "92%",
 			}}>
 			<Container className="w-75 pt-5">
 				<div className="mb-4 d-flex flex-row">
@@ -54,27 +67,46 @@ export default function Dashboard() {
 						</Dropdown>
 					</div>
 				</div>
+				<div className="mb-4">For a full list of reviewers and their interests, go to the Reviewers page!</div>
 				<Table hover>
 					<thead>
 						<tr>
 							<th>#</th>
 							<th>Title</th>
-							<th>Status</th>
+							<th>Journal</th>
 							<th>Open</th>
 							<th>Blind</th>
 							<th>Link</th>
+							<th>Reviewers</th>
+							<th>Assign</th>
 						</tr>
 					</thead>
 					<tbody>
 						{papers.map(function (object, i) {
 							return (
-								<tr>
+								<tr key={i}>
 									<td>{i}</td>
 									<td>{object.title}</td>
-									<td>{object.status}</td>
+									<td>{object.journal_id}</td>
 									<td>{object.open_review}</td>
 									<td>{object.double_blind}</td>
 									<td>{object.link}</td>
+									<td>
+										<Select
+											options={reviewers}
+											isClearable={true}
+											isMulti={true}
+											// onChange={(item) =>
+											// 	setFilter(item == null ? "" : item.value)
+											// }
+											className="mb-4"
+										/>
+									</td>
+									<td>
+										<Button variant="secondary">
+											Assign
+										</Button>
+									</td>
 								</tr>
 							);
 						})}
