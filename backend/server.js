@@ -50,7 +50,6 @@ app.get(
 app.get("/getPendingPapers", (req, res) => {
 	const query = `SELECT * FROM papers WHERE status = '0';`;
 	db.query(query, (err, result) => {
-		console.log("res", result);
 		res.json({
 			err: err,
 			papers: result,
@@ -62,6 +61,8 @@ app.get("/getPendingPapers", (req, res) => {
 app.get("/getReviewers/:interest?", require("./handlers/getReviewers"));
 
 app.get("/getInterests", require("./handlers/getInterests"));
+
+app.post("/assignPaper/:id", require("./handlers/assignPapers"))
 
 app.post("/createJournal", require("./handlers/createJournal"));
 

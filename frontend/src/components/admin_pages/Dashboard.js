@@ -8,35 +8,54 @@ export default function Dashboard() {
 	const { user, setUser } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [reviewers, setReviewers] = useState([]);
+	const [reviewerMap, setReviewerMap] = useState(new Map());
+
+	const assignPaper = async (paper_id) => {
+		console.log("passing", reviewerMap.get(paper_id));
+		const res = await Axios.post(
+			`http://localhost:3000/assignPaper/${paper_id}`,
+			{
+				reviewers: reviewerMap.get(paper_id),
+			}
+		);
+		if (res.data === "") {
+			getPendingPapers()
+		} else {
+			// setModalTitle("Email already in use");
+			// setModalBody(
+			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
+			// );
+			// setShowModal(true);
+		}
+	};
+	const getPendingPapers = async () => {
+		const res = await Axios.get(`http://localhost:3000/getPendingPapers`);
+		if (res.data.err === null) {
+			setPapers(res.data.papers);
+		} else {
+			// setModalTitle("Email already in use");
+			// setModalBody(
+			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
+			// );
+			// setShowModal(true);
+		}
+	};
+	const getReviewers = async () => {
+		const res = await Axios.get(`http://localhost:3000/getReviewers`);
+		if (res.data.err === null) {
+			console.log(res.data);
+			setReviewers(
+				res.data.reviewers.map((reviewer) => ({
+					value: reviewer.id,
+					label: reviewer.name,
+				}))
+			);
+		}
+	};
 
 	useEffect(() => {
-		const getPendingPapers = async () => {
-			console.log("userr", user);
-			const res = await Axios.get(`http://localhost:3000/getPendingPapers`);
-			if (res.data.err === null) {
-				setPapers(res.data.papers);
-			} else {
-				// setModalTitle("Email already in use");
-				// setModalBody(
-				// 	"Please use another email or login here. Contact us here if you think this is a mistake."
-				// );
-				// setShowModal(true);
-			}
-		};
-		const getReviewers = async () => {
-			const res = await Axios.get(`http://localhost:3000/getReviewers`);
-			if (res.data.err === null) {
-				console.log(res.data);
-				setReviewers(
-					res.data.reviewers.map((reviewer) => ({
-						value: reviewer.name,
-						label: reviewer.name,
-					}))
-				);
-			}
-		};
 		getPendingPapers();
-		getReviewers()
+		getReviewers();
 	}, [user]);
 
 	return (
@@ -67,7 +86,10 @@ export default function Dashboard() {
 						</Dropdown>
 					</div>
 				</div>
-				<div className="mb-4">For a full list of reviewers and their interests, go to the Reviewers page!</div>
+				<div className="mb-4">
+					For a full list of reviewers and their interests, go to the Reviewers
+					page!
+				</div>
 				<Table hover>
 					<thead>
 						<tr>
@@ -85,7 +107,7 @@ export default function Dashboard() {
 						{papers.map(function (object, i) {
 							return (
 								<tr key={i}>
-									<td>{i}</td>
+									<td>{object.id}</td>
 									<td>{object.title}</td>
 									<td>{object.journal_id}</td>
 									<td>{object.open_review}</td>
@@ -96,14 +118,25 @@ export default function Dashboard() {
 											options={reviewers}
 											isClearable={true}
 											isMulti={true}
-											// onChange={(item) =>
-											// 	setFilter(item == null ? "" : item.value)
-											// }
+											onChange={(item) => {
+												setReviewerMap(
+													(map) =>
+														new Map(
+															map.set(
+																object.id,
+																item.map((elem) => elem.value)
+															)
+														)
+												);
+												console.log(reviewerMap);
+											}}
 											className="mb-4"
 										/>
 									</td>
 									<td>
-										<Button variant="secondary">
+										<Button
+											variant="secondary"
+											onClick={() => assignPaper(object.id)}>
 											Assign
 										</Button>
 									</td>

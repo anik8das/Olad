@@ -3,12 +3,6 @@ import Axios from "axios";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 
-const options = [
-	{ value: "chocolate", label: "Chocolate" },
-	{ value: "strawberry", label: "Strawberry" },
-	{ value: "vanilla", label: "Vanilla" },
-];
-
 export default function Reviewers() {
 	const [reviewers, setReviewers] = useState([]);
 	const [filter, setFilter] = useState("");
