@@ -1,11 +1,30 @@
-import React from "react";
+import Axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Table, Dropdown } from "react-bootstrap";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
+	const { user, setUser } = useContext(UserContext);
+	const [papers, setPapers] = useState([]);
+
+	const getPapers = async () => {
+		const res = await Axios.get(
+			`http://localhost:3000/getPapersReviewer/${user.userInfo.id}`
+		);
+		if (res.data.err === null) {
+			console.log("papers updated");
+			setPapers(res.data.papers);
+		}
+	};
+
+	useEffect(() => {
+		getPapers();
+	}, []);
+
 	return (
 		<Container className="w-75 mt-5">
 			<div className="mb-4 d-flex flex-row">
-				<div className="h2">Papers</div>
+				<div className="h2">Assigned papers</div>
 				<div className="ms-auto">
 					<Dropdown>
 						<Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -25,36 +44,25 @@ export default function Dashboard() {
 					<tr>
 						<th>#</th>
 						<th>Title</th>
-						<th>Author</th>
 						<th>Status</th>
+						<th>Open</th>
+						<th>Blind</th>
 						<th>Link</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>
-							Genesis: The next big thing for evolutionary gene modification for
-							the next generation.
-						</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						<td>GDoc</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>GDoc</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>GDoc</td>
-					</tr>
+					{papers.map(function (object, i) {
+						return (
+							<tr>
+								<td>{i}</td>
+								<td>{object.title}</td>
+								<td>{object.status}</td>
+								<td>{object.open_review}</td>
+								<td>{object.double_blind}</td>
+								<td>{object.link}</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</Table>
 		</Container>

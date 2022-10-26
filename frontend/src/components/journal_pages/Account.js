@@ -15,6 +15,10 @@ export default function Account() {
 						<td>{user.userInfo.id}</td>
 					</tr>
 					<tr>
+						<th>Role</th>
+						<td>{user.userRole}</td>
+					</tr>
+					<tr>
 						<th>Name</th>
 						<td>{user.userInfo.name}</td>
 					</tr>

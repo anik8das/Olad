@@ -13,7 +13,9 @@ const login = (req, res) => {
 				result[0].password,
 				(error, response) => {
 					if (response) {
-						req.session.user = result[0];
+						req.session.user = {};
+						req.session.user.info = result[0];
+						req.session.user.role = req.body.journal;
 						console.log("session", req.session.user);
 						res.send({
 							err: err,
@@ -39,6 +41,6 @@ const login = (req, res) => {
 			});
 		}
 	});
-}
+};
 
-module.exports = login
+module.exports = login;

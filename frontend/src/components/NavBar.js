@@ -17,7 +17,17 @@ export default function NavBar() {
 					<Nav.Link as={Link} to="/about">
 						About
 					</Nav.Link>
-					{user.loggedIn === true && (
+					{user.loggedIn === true && user.userRole === 1 && (
+						<Nav.Link as={Link} to="/dashboardJournal">
+							Dashboard
+						</Nav.Link>
+					)}
+					{user.loggedIn === true && user.userRole === 0 && (
+						<Nav.Link as={Link} to="/dashboardReviewer">
+							Dashboard
+						</Nav.Link>
+					)}
+					{user.loggedIn === true && user.userRole === 2 && (
 						<Nav.Link as={Link} to="/dashboard">
 							Dashboard
 						</Nav.Link>
@@ -27,7 +37,7 @@ export default function NavBar() {
 							Account
 						</Nav.Link>
 					)}
-					{user.loggedIn === true && (
+					{user.loggedIn === true && user.userRole === 2 && (
 						<Nav.Link as={Link} to="/reviewers">
 							Reviewers
 						</Nav.Link>

@@ -15,24 +15,22 @@ export default function Login() {
 	const [showModal, setShowModal] = useState(false);
 	const [modalTitle, setModalTitle] = useState("");
 	const [modalBody, setModalBody] = useState("");
-	const [journalToggle, setJournalToggle] = useState(1)
 	const [redirect, setRedirect] = useState(false);
 	const { user, setUser } = useContext(UserContext);
 	const login = async (formData) => {
 		console.log(formData)
-        const res = await Axios.post('http://localhost:3000/login',{
+        const res = await Axios.post('http://localhost:3000/loginAdmin',{
             email: formData.target.form[2].value,
-            password: formData.target.form[3].value,
-			journal: journalToggle
+            password: formData.target.form[3].value
         })
 		if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 1) {
 			await setUser({
 				loggedIn: true,
 				userInfo: res.data.accountDetails[0],
-				userRole: journalToggle
+				userRole: 2
 			})
 			console.log(user)
-			setRedirect("/dashboard");
+			setRedirect("/dashboardAdmin");
 		}
 		else if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 0){
 			setModalTitle("Incorrect password");
@@ -61,26 +59,6 @@ export default function Login() {
 	return (
 		<Container className="w-50 mt-5">
 			<Form>
-				<Form.Group className="mb-3" controlId="formBasicToggle">
-					<ButtonGroup>
-						<ToggleButton
-							key={1}
-							type="radio"
-							variant="secondary"
-							checked={journalToggle === 1}
-							onClick={() => setJournalToggle(1)}>
-							Journal
-						</ToggleButton>
-						<ToggleButton
-							key={0}
-							type="radio"
-							variant="secondary"
-							checked={journalToggle === 0}
-							onClick={() => setJournalToggle(0)}>
-							Reviewer
-						</ToggleButton>
-					</ButtonGroup>
-				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Email address</Form.Label>
 					<Form.Control type="email" placeholder="Enter email" />

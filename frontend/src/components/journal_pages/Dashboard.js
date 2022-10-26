@@ -13,6 +13,7 @@ export default function Dashboard() {
 			`http://localhost:3000/getPapersJournal/${user.userInfo.id}/${filter}`
 		);
 		if (res.data.err === null) {
+			console.log("papers updated")
 			setPapers(res.data.papers);
 		}
 	};
