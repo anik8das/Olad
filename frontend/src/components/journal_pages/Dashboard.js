@@ -13,28 +13,48 @@ export default function Dashboard() {
 			`http://localhost:3000/getPapersJournal/${user.userInfo.id}/${filter}`
 		);
 		if (res.data.err === null) {
-			console.log("papers updated")
+			console.log("papers updated");
 			setPapers(res.data.papers);
 		}
 	};
 
-	const submitPaper = async (formData) => {
-		console.log(formData);
-		var link = formData.target.form[0].value;
-		var file = formData.target.form[1].files[0];
-		var doubleBlind = formData.target.form[2].checked;
-		var openReview = formData.target.form[3].checked;
-		var title = formData.target.form[4].value;
-		var info = formData.target.form[5].value;
+	const submitPaper = async (data) => {
+		console.log(data);
+		var link = data.target.form[0].value;
+		var file = data.target.form[1].files[0];
+		var doubleBlind = data.target.form[2].checked;
+		var openReview = data.target.form[3].checked;
+		var title = data.target.form[4].value;
+		var info = data.target.form[5].value;
 
-		const res = await Axios.post("http://localhost:3000/submitPaper", {
-			journal_id: user.userInfo.id,
-			title: title,
-			openReview: openReview,
-			doubleBlind: doubleBlind,
-			link: link,
-			info: info,
-		});
+		const formData = new FormData();
+		formData.append("journal_id", user.userInfo.id)
+		formData.append("file", file);
+		formData.append("title", title)
+		formData.append("link", link)
+		formData.append("doubleBlind", doubleBlind)
+		formData.append("openReview", openReview)
+		formData.append("info", info)
+
+
+
+		// const res = await Axios.post("http://localhost:3000/submitPaper", {
+		// 	journal_id: user.userInfo.id,
+		// 	title: title,
+		// 	openReview: openReview,
+		// 	doubleBlind: doubleBlind,
+		// 	link: link,
+		// 	info: info,
+		// });
+		const res = await Axios.post(
+			"http://localhost:3000/submitPaper",
+			formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			}
+		);
 		if (res.data === "") {
 			console.log("Paper uploaded");
 			getPapers();
@@ -43,7 +63,7 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		getPapers();
-		console.log('filter', filter)
+		console.log("filter", filter);
 	}, [filter]);
 
 	return (
@@ -110,11 +130,21 @@ export default function Dashboard() {
 								Filter by
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item onClick={()=>setFilter(-1)} href="#/action-1">All</Dropdown.Item>
-								<Dropdown.Item onClick={()=>setFilter(0)} href="#/action-2">Submitted</Dropdown.Item>
-								<Dropdown.Item onClick={()=>setFilter(1)} href="#/action-2">Assigned</Dropdown.Item>
-								<Dropdown.Item onClick={()=>setFilter(2)} href="#/action-3">In progress</Dropdown.Item>
-								<Dropdown.Item onClick={()=>setFilter(3)} href="#/action-3">Completed</Dropdown.Item>
+								<Dropdown.Item onClick={() => setFilter(-1)} href="#/action-1">
+									All
+								</Dropdown.Item>
+								<Dropdown.Item onClick={() => setFilter(0)} href="#/action-2">
+									Submitted
+								</Dropdown.Item>
+								<Dropdown.Item onClick={() => setFilter(1)} href="#/action-2">
+									Assigned
+								</Dropdown.Item>
+								<Dropdown.Item onClick={() => setFilter(2)} href="#/action-3">
+									In progress
+								</Dropdown.Item>
+								<Dropdown.Item onClick={() => setFilter(3)} href="#/action-3">
+									Completed
+								</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
 					</div>

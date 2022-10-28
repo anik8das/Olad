@@ -11,7 +11,7 @@ export default function NavBar() {
 		<Navbar bg="dark" className="" style={{ height: "8%" }} variant="dark">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
-					PRAAS
+					REBYU
 				</Navbar.Brand>
 				<Nav>
 					<Nav.Link as={Link} to="/about">
@@ -28,7 +28,7 @@ export default function NavBar() {
 						</Nav.Link>
 					)}
 					{user.loggedIn === true && user.userRole === 2 && (
-						<Nav.Link as={Link} to="/dashboard">
+						<Nav.Link as={Link} to="/dashboardAdmin">
 							Dashboard
 						</Nav.Link>
 					)}

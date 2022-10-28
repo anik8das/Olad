@@ -4,14 +4,12 @@ import { Navigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/esm/Container";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import AlertModal from "./AlertModal";
+import AlertModal from "../AlertModal";
 import Axios from 'axios';
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 
-export default function Login() {
+export default function LoginAdmin() {
 	const [showModal, setShowModal] = useState(false);
 	const [modalTitle, setModalTitle] = useState("");
 	const [modalBody, setModalBody] = useState("");
@@ -20,8 +18,8 @@ export default function Login() {
 	const login = async (formData) => {
 		console.log(formData)
         const res = await Axios.post('http://localhost:3000/loginAdmin',{
-            email: formData.target.form[2].value,
-            password: formData.target.form[3].value
+            email: formData.target.form[0].value,
+            password: formData.target.form[1].value
         })
 		if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 1) {
 			await setUser({
@@ -32,25 +30,10 @@ export default function Login() {
 			console.log(user)
 			setRedirect("/dashboardAdmin");
 		}
-		else if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 0){
-			setModalTitle("Incorrect password");
-			setModalBody(
-				"Please try again, or reset your password here"
-			);
-			setShowModal(true);
-		}
-		else if (res.data.err != null) {
-			setModalTitle("Internal server error");
+		else {
+			setModalTitle("Error logging in");
 			setModalBody(
 				"Please try again"
-			);
-			setShowModal(true);
-			console.log('error')
-		}
-		else {
-			setModalTitle("No account exists with this email");
-			setModalBody(
-				"Please try again, or create an account here."
 			);
 			setShowModal(true);
 		}
@@ -58,6 +41,7 @@ export default function Login() {
 
 	return (
 		<Container className="w-50 mt-5">
+			<div className="h3 mb-4">Admin Login</div>
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Email address</Form.Label>

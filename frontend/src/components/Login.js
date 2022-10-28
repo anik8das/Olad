@@ -32,7 +32,10 @@ export default function Login() {
 				userRole: journalToggle
 			})
 			console.log(user)
-			setRedirect("/dashboard");
+			var temp = "/dashboard"
+			temp += journalToggle?"Journal":"Reviewer"
+			console.log(temp)
+			setRedirect(temp);
 		}
 		else if(res.data.err === null && res.data.accountExists === 1 && res.data.passwordCorrect === 0){
 			setModalTitle("Incorrect password");

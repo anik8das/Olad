@@ -10,6 +10,8 @@ const submitPaper = (req, res) => {
 	var yyyy = date.getFullYear();
 	req.body.doubleBlind = req.body.doubleBlind ? 1 : 0;
 	req.body.openReview = req.body.openReview ? 1 : 0;
+	const file = req.files.file;
+	console.log(file)
 
 	const query = `INSERT INTO papers (title, journal_id, submission_date, link, double_blind, open_review, status) VALUES ('${
 		req.body.title
