@@ -9,7 +9,6 @@ const getAllPapersJournal = (req, res) => {
 		query += `AND status = '${req.params.status}';`
 	}
 	db.query(query, (err, result) => {
-		console.log(err, result)
 		res.json({
 			err: err,
 			papers: result,
