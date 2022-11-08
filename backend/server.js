@@ -51,6 +51,8 @@ app.get(
 
 app.get("/getPapersReviewer/:id", require("./handlers/getPapersReviewer"));
 
+app.get("/getPaperInfo/:id", require("./handlers/getPaperInfo"));
+
 app.get("/getPendingPapers", (req, res) => {
 	const query = `SELECT * FROM papers WHERE status = '0';`;
 	db.query(query, (err, result) => {
