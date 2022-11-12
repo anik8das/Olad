@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Container, Card, Row, Col, Table } from "react-bootstrap";
+import { Container, Button, Row, Col, Table } from "react-bootstrap";
 import Select from "react-select";
 
 export default function Paper(props) {
 	const [info, setInfo] = useState({});
 	const [matches, setMatches] = useState([]);
 	const [reviewers, setReviewers] = useState([]);
+	const [reviewerMap, setReviewerMap] = useState({});
+	const statusMap = {
+		0: "Assigned",
+		1: "Accepted",
+		2: "Completed"
+	}
 
 	const getInfo = async () => {
 		console.log("paperID", props.paperID);
@@ -24,7 +30,15 @@ export default function Paper(props) {
 		const res = await Axios.get(`http://localhost:3000/getReviewers`);
 		if (res.data.err === null) {
 			console.log(res.data.reviewers);
-			setReviewers(res.data.reviewers);
+			setReviewers(
+				res.data.reviewers.map((reviewer) => ({
+					value: reviewer.id,
+					label: reviewer.name,
+				}))
+			);
+			setReviewerMap(res.data.reviewers.reduce(
+				(obj, reviewer) => Object.assign(obj, { [reviewer.id]: reviewer.name }), {}
+			))
 		}
 	};
 
@@ -34,10 +48,10 @@ export default function Paper(props) {
 	}, []);
 
 	return (
-		<Container className="w-50 pt-5">
+		<Container className="w-50 pt-5 pb-3">
 			<div className="h2 mb-3">{info.title}</div>
 			<div className="fs-5 fw-light mb-2">
-				<Table hover className="mb-3">
+				<Table className="mb-3">
 					<tbody>
 						<tr>
 							<th>Paper ID</th>
@@ -69,25 +83,34 @@ export default function Paper(props) {
 						</tr>
 					</tbody>
 				</Table>
+				<div className="h2 mb-3 mt-3">Reviewers Assigned</div>
 				<Table>
 					<tbody>
 						{matches.map((value, index) => {
 							return (
 								<tr key={index}>
-									<td>Reviewer:{value.reviewer_id}</td>
-									<td>Status:{value.status}</td>
+									<td>{reviewerMap[value.reviewer_id]}</td>
+									<td>{statusMap[value.status]}</td>
+									<td>
+										<Button variant="secondary">Remove</Button>
+									</td>
 								</tr>
 							);
 						})}
 					</tbody>
 				</Table>
-				{matches.map((value, index) => {
-					return (
-						<div key={index}>
-							Reviewer:{value.reviewer_id}; Status:{value.status}
-						</div>
-					);
-				})}
+				<div className="d-flex mb-4 justify-content-around">
+					<Select
+						options={reviewers}
+						isClearable={true}
+						isMulti={true}
+						className="w-75"
+						placeholder="Assign more reviewers"
+					/>
+					<Button className="ml-2 pl-2" variant="secondary">Assign</Button>
+				</div>
+				<Button className="mx-auto d-flex" variant="secondary">Start Review</Button>
+
 			</div>
 		</Container>
 	);
