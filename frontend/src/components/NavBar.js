@@ -11,7 +11,7 @@ export default function NavBar() {
 		<Navbar bg="dark" className="" style={{ height: "8%" }} variant="dark">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
-					REBYU
+					OLAD
 				</Navbar.Brand>
 				<Nav>
 					<Nav.Link as={Link} to="/about">
