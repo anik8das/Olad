@@ -17,11 +17,9 @@ export default function SignupJournal() {
 			password: formData.target.form[4].value,
 		}).then(async (res) => {
 			if (res.data === "") {
-                // popping a modal to tell user that the request was successful.
+				// popping a modal to tell user that the request was successful.
 				setModalTitle("Account successfully created!");
-				setModalBody(
-					"Redirecting to Login page shortly"
-				);
+				setModalBody("Redirecting to Login page shortly");
 				setShowModal(true);
 				setTimeout(() => {
 					setRedirect("/login");
@@ -40,11 +38,17 @@ export default function SignupJournal() {
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicName">
 					<Form.Label>Journal Name</Form.Label>
-					<Form.Control type="text" placeholder="Enter Journal Name" />
+					<Form.Control
+						type="text"
+						placeholder="Enter Journal Name"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicWebsite">
 					<Form.Label>Journal Website</Form.Label>
-					<Form.Control type="text" placeholder="Enter Journal Website" />
+					<Form.Control
+						type="text"
+						placeholder="Enter Journal Website"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Journal Email address</Form.Label>

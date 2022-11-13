@@ -9,7 +9,9 @@ export default function Reviewers() {
 	const [interests, setInterest] = useState([]);
 
 	const getReviewers = async () => {
-		const res = await Axios.get(`http://localhost:3000/getReviewers/${filter}`);
+		const res = await Axios.get(
+			`http://localhost:3000/getReviewers/${filter}`
+		);
 		if (res.data.err === null) {
 			console.log(res.data);
 			setReviewers(res.data.reviewers);

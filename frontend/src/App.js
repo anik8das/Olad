@@ -51,16 +51,25 @@ function App() {
 					<Route path="/about" element={<About />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/account" element={<Account />} />
-					<Route path="/paper" element={<Paper paperID="1"/>}/>
+					<Route path="/paper" element={<Paper paperID="1" />} />
 					<Route element={<ProtectedRoutesAdmin />}>
 						<Route path="/reviewers" element={<Reviewers />} />
-						<Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+						<Route
+							path="/dashboardAdmin"
+							element={<DashboardAdmin />}
+						/>
 					</Route>
 					<Route element={<ProtectedRoutesJournal />}>
-						<Route path="dashboardJournal" element={<DashboardJournal />} />
+						<Route
+							path="dashboardJournal"
+							element={<DashboardJournal />}
+						/>
 					</Route>
 					<Route element={<ProtectedRoutesReviewer />}>
-						<Route path="dashboardReviewer" element={<DashboardReviewer />} />
+						<Route
+							path="dashboardReviewer"
+							element={<DashboardReviewer />}
+						/>
 					</Route>
 					<Route path="/logout" element={<Logout />} />
 				</Routes>

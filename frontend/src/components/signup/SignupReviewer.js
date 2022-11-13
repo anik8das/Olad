@@ -1,4 +1,4 @@
-import {Button, Form} from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import MultipleValueTextInput from "react-multivalue-text-input";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function SignupReviewer() {
 			email: formData.target.form[3].value,
 			password: formData.target.form[4].value,
 		}).then((res) => {
-            console.log('data', res.data)
+			console.log("data", res.data);
 			if (res.data.err === null) {
 				// popping a modal to tell user that the request was successful.
 				setModalTitle("Account successfully created!");
@@ -30,24 +30,22 @@ export default function SignupReviewer() {
 				setTimeout(() => {
 					setRedirect("/login");
 				}, 1500);
+			} else if (res.data.accountCreated === 1) {
+				setModalTitle("Account Successfully Created! ");
+				setModalBody(
+					"However, there was an error uploading your interests but they can be modified after login."
+				);
+				setShowModal(true);
+				setTimeout(() => {
+					setRedirect("/login");
+				}, 1500);
+			} else {
+				setModalTitle("Email already in use");
+				setModalBody(
+					"Please use another email or login here. Contact us here if you think this is a mistake."
+				);
+				setShowModal(true);
 			}
-            else if (res.data.accountCreated === 1){
-                setModalTitle("Account Successfully Created! ");
-                setModalBody(
-                    "However, there was an error uploading your interests but they can be modified after login."
-                );
-                setShowModal(true);
-                setTimeout(() => {
-                    setRedirect("/login");
-                }, 1500);
-            }
-            else {
-                setModalTitle("Email already in use");
-                setModalBody(
-                    "Please use another email or login here. Contact us here if you think this is a mistake."
-                );
-                setShowModal(true);
-            }
 		});
 	};
 
@@ -56,11 +54,17 @@ export default function SignupReviewer() {
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicName">
 					<Form.Label>Name</Form.Label>
-					<Form.Control type="text" placeholder="Enter Reviewer Name" />
+					<Form.Control
+						type="text"
+						placeholder="Enter Reviewer Name"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicWebsite">
 					<Form.Label>Academic profile/ Personal website</Form.Label>
-					<Form.Control type="text" placeholder="Enter website link" />
+					<Form.Control
+						type="text"
+						placeholder="Enter website link"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicName">
 					<MultipleValueTextInput

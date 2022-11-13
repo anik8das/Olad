@@ -15,7 +15,8 @@ export default function Signup() {
 					type="radio"
 					variant="secondary"
 					checked={journalToggle === 0}
-					onClick={() => setJournalToggle(0)}>
+					onClick={() => setJournalToggle(0)}
+				>
 					Journal
 				</ToggleButton>
 				<ToggleButton
@@ -23,7 +24,8 @@ export default function Signup() {
 					type="radio"
 					variant="secondary"
 					checked={journalToggle === 1}
-					onClick={() => setJournalToggle(1)}>
+					onClick={() => setJournalToggle(1)}
+				>
 					Reviewer
 				</ToggleButton>
 			</ButtonGroup>

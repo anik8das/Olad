@@ -4,7 +4,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function Account() {
 	const { user, setUser } = useContext(UserContext);
-    console.log(user)
+	console.log(user);
 	return (
 		<Container className="w-50 mt-5">
 			<div className="h2 mb-4">Account information</div>

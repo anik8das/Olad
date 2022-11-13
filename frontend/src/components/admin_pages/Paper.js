@@ -11,8 +11,8 @@ export default function Paper(props) {
 	const statusMap = {
 		0: "Assigned",
 		1: "Accepted",
-		2: "Completed"
-	}
+		2: "Completed",
+	};
 
 	const getInfo = async () => {
 		console.log("paperID", props.paperID);
@@ -36,9 +36,13 @@ export default function Paper(props) {
 					label: reviewer.name,
 				}))
 			);
-			setReviewerMap(res.data.reviewers.reduce(
-				(obj, reviewer) => Object.assign(obj, { [reviewer.id]: reviewer.name }), {}
-			))
+			setReviewerMap(
+				res.data.reviewers.reduce(
+					(obj, reviewer) =>
+						Object.assign(obj, { [reviewer.id]: reviewer.name }),
+					{}
+				)
+			);
 		}
 	};
 
@@ -92,7 +96,9 @@ export default function Paper(props) {
 									<td>{reviewerMap[value.reviewer_id]}</td>
 									<td>{statusMap[value.status]}</td>
 									<td>
-										<Button variant="secondary">Remove</Button>
+										<Button variant="secondary">
+											Remove
+										</Button>
 									</td>
 								</tr>
 							);
@@ -107,10 +113,13 @@ export default function Paper(props) {
 						className="w-75"
 						placeholder="Assign more reviewers"
 					/>
-					<Button className="ml-2 pl-2" variant="secondary">Assign</Button>
+					<Button className="ml-2 pl-2" variant="secondary">
+						Assign
+					</Button>
 				</div>
-				<Button className="mx-auto d-flex" variant="secondary">Start Review</Button>
-
+				<Button className="mx-auto d-flex" variant="secondary">
+					Start Review
+				</Button>
 			</div>
 		</Container>
 	);

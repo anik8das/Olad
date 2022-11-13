@@ -28,15 +28,13 @@ export default function Dashboard() {
 		var info = data.target.form[5].value;
 
 		const formData = new FormData();
-		formData.append("journal_id", user.userInfo.id)
+		formData.append("journal_id", user.userInfo.id);
 		formData.append("file", file);
-		formData.append("title", title)
-		formData.append("link", link)
-		formData.append("doubleBlind", doubleBlind)
-		formData.append("openReview", openReview)
-		formData.append("info", info)
-
-
+		formData.append("title", title);
+		formData.append("link", link);
+		formData.append("doubleBlind", doubleBlind);
+		formData.append("openReview", openReview);
+		formData.append("info", info);
 
 		// const res = await Axios.post("http://localhost:3000/submitPaper", {
 		// 	journal_id: user.userInfo.id,
@@ -76,14 +74,21 @@ export default function Dashboard() {
 				backgroundAttachment: "fixed",
 				paddingBottom: "1%",
 				minHeight: "92%",
-			}}>
+			}}
+		>
 			<Container className="w-75 pt-5">
 				<div className="h2 mb-4">Submit a Manuscript</div>
 				<Form className="mb-4">
 					<div className="d-flex justify-content-evenly text-center mb-3">
-						<Form.Group className="mb-3 w-25" controlId="formBasicWebsite">
+						<Form.Group
+							className="mb-3 w-25"
+							controlId="formBasicWebsite"
+						>
 							<Form.Label>Manuscript Link</Form.Label>
-							<Form.Control type="text" placeholder="Enter Link" />
+							<Form.Control
+								type="text"
+								placeholder="Enter Link"
+							/>
 						</Form.Group>
 						OR
 						<Form.Group controlId="formFile" className="mb-3 w-25">
@@ -110,13 +115,18 @@ export default function Dashboard() {
 						<Form.Control type="text" placeholder="Paper Title" />
 					</Form.Group>
 					<Form.Group className="mb-4" controlId="formBasicWebsite">
-						<Form.Label>(Optional) Add additional information</Form.Label>
+						<Form.Label>
+							(Optional) Add additional information
+						</Form.Label>
 						<Form.Control
 							type="text"
 							placeholder="Enter any relevant information (Have a specific reviewer in mind? Want specific formatting?)"
 						/>
 					</Form.Group>
-					<Form.Group className="text-center mb-3" controlId="formBasicWebsite">
+					<Form.Group
+						className="text-center mb-3"
+						controlId="formBasicWebsite"
+					>
 						<Button variant="secondary" onClick={submitPaper}>
 							Submit
 						</Button>
@@ -126,23 +136,41 @@ export default function Dashboard() {
 					<div className="h2">Submitted Papers</div>
 					<div className="ms-auto">
 						<Dropdown>
-							<Dropdown.Toggle variant="secondary" id="dropdown-basic">
+							<Dropdown.Toggle
+								variant="secondary"
+								id="dropdown-basic"
+							>
 								Filter by
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item onClick={() => setFilter(-1)} href="#/action-1">
+								<Dropdown.Item
+									onClick={() => setFilter(-1)}
+									href="#/action-1"
+								>
 									All
 								</Dropdown.Item>
-								<Dropdown.Item onClick={() => setFilter(0)} href="#/action-2">
+								<Dropdown.Item
+									onClick={() => setFilter(0)}
+									href="#/action-2"
+								>
 									Submitted
 								</Dropdown.Item>
-								<Dropdown.Item onClick={() => setFilter(1)} href="#/action-2">
+								<Dropdown.Item
+									onClick={() => setFilter(1)}
+									href="#/action-2"
+								>
 									Assigned
 								</Dropdown.Item>
-								<Dropdown.Item onClick={() => setFilter(2)} href="#/action-3">
+								<Dropdown.Item
+									onClick={() => setFilter(2)}
+									href="#/action-3"
+								>
 									In progress
 								</Dropdown.Item>
-								<Dropdown.Item onClick={() => setFilter(3)} href="#/action-3">
+								<Dropdown.Item
+									onClick={() => setFilter(3)}
+									href="#/action-3"
+								>
 									Completed
 								</Dropdown.Item>
 							</Dropdown.Menu>

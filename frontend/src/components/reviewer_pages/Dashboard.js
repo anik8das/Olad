@@ -27,14 +27,23 @@ export default function Dashboard() {
 				<div className="h2">Assigned papers</div>
 				<div className="ms-auto">
 					<Dropdown>
-						<Dropdown.Toggle variant="secondary" id="dropdown-basic">
+						<Dropdown.Toggle
+							variant="secondary"
+							id="dropdown-basic"
+						>
 							Filter by
 						</Dropdown.Toggle>
 						<Dropdown.Menu className="text-center">
 							<Dropdown.Item href="#/action-1">All</Dropdown.Item>
-							<Dropdown.Item href="#/action-2">Submitted</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">In progress</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">Completed</Dropdown.Item>
+							<Dropdown.Item href="#/action-2">
+								Submitted
+							</Dropdown.Item>
+							<Dropdown.Item href="#/action-3">
+								In progress
+							</Dropdown.Item>
+							<Dropdown.Item href="#/action-3">
+								Completed
+							</Dropdown.Item>
 						</Dropdown.Menu>
 					</Dropdown>
 				</div>

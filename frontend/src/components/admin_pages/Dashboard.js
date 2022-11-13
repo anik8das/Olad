@@ -19,7 +19,7 @@ export default function Dashboard() {
 			}
 		);
 		if (res.data === "") {
-			getPendingPapers()
+			getPendingPapers();
 		} else {
 			// setModalTitle("Email already in use");
 			// setModalBody(
@@ -68,27 +68,39 @@ export default function Dashboard() {
 				backgroundAttachment: "fixed",
 				paddingBottom: "1%",
 				minHeight: "92%",
-			}}>
+			}}
+		>
 			<Container className="w-75 pt-5">
 				<div className="mb-4 d-flex flex-row">
 					<div className="h2">Papers pending assignments</div>
 					<div className="ms-auto">
 						<Dropdown>
-							<Dropdown.Toggle variant="secondary" id="dropdown-basic">
+							<Dropdown.Toggle
+								variant="secondary"
+								id="dropdown-basic"
+							>
 								Filter by
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item href="#/action-1">All</Dropdown.Item>
-								<Dropdown.Item href="#/action-2">Submitted</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">In progress</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">Completed</Dropdown.Item>
+								<Dropdown.Item href="#/action-1">
+									All
+								</Dropdown.Item>
+								<Dropdown.Item href="#/action-2">
+									Submitted
+								</Dropdown.Item>
+								<Dropdown.Item href="#/action-3">
+									In progress
+								</Dropdown.Item>
+								<Dropdown.Item href="#/action-3">
+									Completed
+								</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
 					</div>
 				</div>
 				<div className="mb-4">
-					For a full list of reviewers and their interests, go to the Reviewers
-					page!
+					For a full list of reviewers and their interests, go to the
+					Reviewers page!
 				</div>
 				<Table hover>
 					<thead>
@@ -124,7 +136,10 @@ export default function Dashboard() {
 														new Map(
 															map.set(
 																object.id,
-																item.map((elem) => elem.value)
+																item.map(
+																	(elem) =>
+																		elem.value
+																)
 															)
 														)
 												);
@@ -136,7 +151,10 @@ export default function Dashboard() {
 									<td>
 										<Button
 											variant="secondary"
-											onClick={() => assignPaper(object.id)}>
+											onClick={() =>
+												assignPaper(object.id)
+											}
+										>
 											Assign
 										</Button>
 									</td>

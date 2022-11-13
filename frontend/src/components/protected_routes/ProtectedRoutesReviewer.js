@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 const useAuth = () => {
-  const { user } = useContext(UserContext);
-  return user && user.loggedIn && user.userRole === 0;
+	const { user } = useContext(UserContext);
+	return user && user.loggedIn && user.userRole === 0;
 };
 
 const ProtectedRoutesReviewer = () => {
-  const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+	const isAuth = useAuth();
+	return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoutesReviewer;

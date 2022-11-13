@@ -7,7 +7,8 @@ export default function AlertModal(props) {
 			show={props.showVariable}
 			onHide={() => {
 				props.changeVariable(false);
-			}}>
+			}}
+		>
 			<Modal.Header closeButton>
 				<Modal.Title>{props.title}</Modal.Title>
 			</Modal.Header>
