@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Container, Card, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import Select from "react-select";
 
 export default function Reviewers() {
@@ -13,7 +13,6 @@ export default function Reviewers() {
 			`http://localhost:3000/getReviewers/${filter}`
 		);
 		if (res.data.err === null) {
-			console.log(res.data);
 			setReviewers(res.data.reviewers);
 		}
 	};

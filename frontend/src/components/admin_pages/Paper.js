@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Container, Button, Row, Col, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Table } from "react-bootstrap";
 import Select from "react-select";
 
 export default function Paper(props) {
@@ -15,21 +15,18 @@ export default function Paper(props) {
 	};
 
 	const getInfo = async () => {
-		console.log("paperID", props.paperID);
 		const res = await Axios.get(
 			`http://localhost:3000/getPaperInfo/${props.paperID}`
 		);
 		if (res.data.err === null) {
 			setInfo(res.data.paper);
 			setMatches(res.data.matches);
-			console.log(res.data.paper, res.data.matches);
 		}
 	};
 
 	const getReviewers = async () => {
 		const res = await Axios.get(`http://localhost:3000/getReviewers`);
 		if (res.data.err === null) {
-			console.log(res.data.reviewers);
 			setReviewers(
 				res.data.reviewers.map((reviewer) => ({
 					value: reviewer.id,

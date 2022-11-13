@@ -1,10 +1,10 @@
 import Axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import { Container, Table, Dropdown } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Dropdown, Table } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 
 	const getPapers = async () => {

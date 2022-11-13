@@ -5,7 +5,6 @@ const getPaperInfo = (req, res) => {
   var query = `SELECT * FROM papers WHERE id = '${req.params.id}';`;
   db.query(query, (err, result) => {
     if (err == null) {
-      console.log("res", result);
       query = `SELECT * FROM matches WHERE paper_id='${req.params.id}'`;
       db.query(query, (err, matches) => {
         console.log("matches", matches, req.params.id);

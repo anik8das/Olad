@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
 export default function NavBar() {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	return (
 		<Navbar bg="dark" className="" style={{ height: "8%" }} variant="dark">
 			<Container>

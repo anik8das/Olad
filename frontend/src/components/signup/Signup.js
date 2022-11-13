@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Container from "react-bootstrap/esm/Container";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Container from "react-bootstrap/esm/Container";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import SignupJournal from "./SignupJournal";
 import SignupReviewer from "./SignupReviewer";

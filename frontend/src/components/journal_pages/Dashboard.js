@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
 import Axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Container, Dropdown, Form, Table } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [filter, setFilter] = useState(-1);
 
@@ -19,7 +19,6 @@ export default function Dashboard() {
 	};
 
 	const submitPaper = async (data) => {
-		console.log(data);
 		var link = data.target.form[0].value;
 		var file = data.target.form[1].files[0];
 		var doubleBlind = data.target.form[2].checked;
@@ -61,7 +60,6 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		getPapers();
-		console.log("filter", filter);
 	}, [filter]);
 
 	return (

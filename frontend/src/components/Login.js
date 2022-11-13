@@ -1,14 +1,13 @@
-import React from "react";
-import { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/esm/Container";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import AlertModal from "./AlertModal";
 import Axios from "axios";
+import React, { useContext, useState } from "react";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Container from "react-bootstrap/esm/Container";
+import Form from "react-bootstrap/Form";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import { Navigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import AlertModal from "./AlertModal";
 
 export default function Login() {
 	const [showModal, setShowModal] = useState(false);
@@ -16,9 +15,8 @@ export default function Login() {
 	const [modalBody, setModalBody] = useState("");
 	const [journalToggle, setJournalToggle] = useState(1);
 	const [redirect, setRedirect] = useState(false);
-	const { user, setUser } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
 	const login = async (formData) => {
-		console.log(formData);
 		const res = await Axios.post("http://localhost:3000/login", {
 			email: formData.target.form[2].value,
 			password: formData.target.form[3].value,
@@ -34,10 +32,8 @@ export default function Login() {
 				userInfo: res.data.accountDetails[0],
 				userRole: journalToggle,
 			});
-			console.log(user);
 			var temp = "/dashboard";
 			temp += journalToggle ? "Journal" : "Reviewer";
-			console.log(temp);
 			setRedirect(temp);
 		} else if (
 			res.data.err === null &&

@@ -1,8 +1,8 @@
-import { Button, Form } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
-import MultipleValueTextInput from "react-multivalue-text-input";
-import { useState } from "react";
 import Axios from "axios";
+import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import MultipleValueTextInput from "react-multivalue-text-input";
+import { Navigate } from "react-router-dom";
 import AlertModal from "../AlertModal";
 
 export default function SignupReviewer() {
@@ -13,7 +13,6 @@ export default function SignupReviewer() {
 	const [interests, setInterests] = useState(new Set([]));
 	const createAccountReviewer = (formData) => {
 		// todo: verify everything
-		console.log([...interests].join(","));
 		Axios.post("http://localhost:3000/createReviewer", {
 			name: formData.target.form[0].value,
 			website: formData.target.form[1].value,
@@ -21,7 +20,6 @@ export default function SignupReviewer() {
 			email: formData.target.form[3].value,
 			password: formData.target.form[4].value,
 		}).then((res) => {
-			console.log("data", res.data);
 			if (res.data.err === null) {
 				// popping a modal to tell user that the request was successful.
 				setModalTitle("Account successfully created!");

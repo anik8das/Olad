@@ -16,7 +16,6 @@ const login = (req, res) => {
             req.session.user = {};
             req.session.user.info = result[0];
             req.session.user.role = req.body.journal;
-            console.log("session", req.session.user);
             res.send({
               err: err,
               accountExists: result.length,

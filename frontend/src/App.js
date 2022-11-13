@@ -1,25 +1,25 @@
-import NavBar from "./components/NavBar";
-import Homepage from "./components/Homepage";
-import Login from "./components/Login";
-import LoginAdmin from "./components/admin_pages/Login";
-import Logout from "./components/Logout";
-import Signup from "./components/signup/Signup";
 import About from "./components/About";
-import Paper from "./components/admin_pages/Paper";
 import { default as DashboardAdmin } from "./components/admin_pages/Dashboard";
-import { default as DashboardJournal } from "./components/journal_pages/Dashboard";
-import { default as DashboardReviewer } from "./components/reviewer_pages/Dashboard";
+import LoginAdmin from "./components/admin_pages/Login";
+import Paper from "./components/admin_pages/Paper";
 import Reviewers from "./components/admin_pages/Reviewers";
+import Homepage from "./components/Homepage";
 import Account from "./components/journal_pages/Account";
+import { default as DashboardJournal } from "./components/journal_pages/Dashboard";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import NavBar from "./components/NavBar";
+import { default as DashboardReviewer } from "./components/reviewer_pages/Dashboard";
+import Signup from "./components/signup/Signup";
 
 import ProtectedRoutesAdmin from "./components/protected_routes/ProtectedRoutesAdmin";
 import ProtectedRoutesJournal from "./components/protected_routes/ProtectedRoutesJournal";
 import ProtectedRoutesReviewer from "./components/protected_routes/ProtectedRoutesReviewer";
 
-import { Routes, Route } from "react-router-dom";
-import { UserContext } from "./contexts/UserContext";
-import { useState, useEffect } from "react";
 import Axios from "axios";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { UserContext } from "./contexts/UserContext";
 
 function App() {
 	const [user, setUser] = useState({

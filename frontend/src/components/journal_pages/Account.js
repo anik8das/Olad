@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Container, Table, Button } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function Account() {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	console.log(user);
 	return (
 		<Container className="w-50 mt-5">

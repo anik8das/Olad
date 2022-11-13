@@ -1,17 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Container, Table, Dropdown, Form, Button } from "react-bootstrap";
 import Axios from "axios";
-import { UserContext } from "../../contexts/UserContext";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Container, Dropdown, Table } from "react-bootstrap";
 import Select from "react-select";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Dashboard() {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [reviewers, setReviewers] = useState([]);
 	const [reviewerMap, setReviewerMap] = useState(new Map());
 
 	const assignPaper = async (paper_id) => {
-		console.log("passing", reviewerMap.get(paper_id));
 		const res = await Axios.post(
 			`http://localhost:3000/assignPaper/${paper_id}`,
 			{
@@ -43,7 +42,6 @@ export default function Dashboard() {
 	const getReviewers = async () => {
 		const res = await Axios.get(`http://localhost:3000/getReviewers`);
 		if (res.data.err === null) {
-			console.log(res.data);
 			setReviewers(
 				res.data.reviewers.map((reviewer) => ({
 					value: reviewer.id,
@@ -143,7 +141,6 @@ export default function Dashboard() {
 															)
 														)
 												);
-												console.log(reviewerMap);
 											}}
 											className="mb-4"
 										/>
