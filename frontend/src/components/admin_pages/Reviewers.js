@@ -51,7 +51,7 @@ export default function Reviewers() {
 			{filter}
 			<Row xs={2} md={3} className="g-4">
 				{reviewers.map((item, idx) => (
-					<Col>
+					<Col key={idx}>
 						<Card className="h-100" key={idx}>
 							<Card.Body>
 								<Card.Title>{item.name}</Card.Title>

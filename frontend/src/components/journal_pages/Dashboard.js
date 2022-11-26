@@ -189,7 +189,7 @@ export default function Dashboard() {
 					<tbody>
 						{papers.map(function (object, i) {
 							return (
-								<tr>
+								<tr key={i}>
 									<td>{i}</td>
 									<td>{object.title}</td>
 									<td>{object.status}</td>
