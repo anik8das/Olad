@@ -1,7 +1,7 @@
 import About from "./components/About";
 import { default as DashboardAdmin } from "./components/admin_pages/Dashboard";
 import LoginAdmin from "./components/admin_pages/Login";
-import Paper from "./components/admin_pages/Paper";
+import { default as PaperAdmin } from "./components/admin_pages/Paper";
 import Reviewers from "./components/admin_pages/Reviewers";
 import Homepage from "./components/Homepage";
 import Account from "./components/journal_pages/Account";
@@ -27,6 +27,7 @@ function App() {
 		userInfo: {},
 		userRole: null,
 	});
+	const [loading, setLoading] = useState(true);
 
 	Axios.defaults.withCredentials = true;
 	useEffect(() => {
@@ -36,6 +37,7 @@ function App() {
 				console.log(res.data);
 				setUser(res.data);
 			}
+			setLoading(false);
 		};
 		loggedIn();
 	}, []);
@@ -44,35 +46,41 @@ function App() {
 		<div className="vh-100">
 			<UserContext.Provider value={{ user, setUser }}>
 				<NavBar />
-				<Routes>
-					<Route path="/" element={<Homepage />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/loginAdmin" element={<LoginAdmin />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/account" element={<Account />} />
-					<Route path="/paper" element={<Paper paperID="1" />} />
-					<Route element={<ProtectedRoutesAdmin />}>
-						<Route path="/reviewers" element={<Reviewers />} />
-						<Route
-							path="/dashboardAdmin"
-							element={<DashboardAdmin />}
-						/>
-					</Route>
-					<Route element={<ProtectedRoutesJournal />}>
-						<Route
-							path="dashboardJournal"
-							element={<DashboardJournal />}
-						/>
-					</Route>
-					<Route element={<ProtectedRoutesReviewer />}>
-						<Route
-							path="dashboardReviewer"
-							element={<DashboardReviewer />}
-						/>
-					</Route>
-					<Route path="/logout" element={<Logout />} />
-				</Routes>
+				{loading === false && (
+					<Routes>
+						<Route path="/" element={<Homepage />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/loginAdmin" element={<LoginAdmin />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/signup" element={<Signup />} />
+						<Route path="/account" element={<Account />} />
+						<Route element={<ProtectedRoutesAdmin />}>
+							<Route
+								path="/dashboardAdmin"
+								element={<DashboardAdmin />}
+							/>
+							<Route
+								path="/paper/:paperID"
+								element={<PaperAdmin />}
+							/>
+							<Route path="/reviewers" element={<Reviewers />} />
+						</Route>
+						<Route element={<ProtectedRoutesJournal />}>
+							<Route
+								path="dashboardJournal"
+								element={<DashboardJournal />}
+							/>
+						</Route>
+						<Route element={<ProtectedRoutesReviewer />}>
+							<Route
+								path="dashboardReviewer"
+								element={<DashboardReviewer />}
+							/>
+						</Route>
+						<Route path="/logout" element={<Logout />} />
+					</Routes>
+				)}
+				{loading === true && <div>loading</div>}
 			</UserContext.Provider>
 		</div>
 	);
