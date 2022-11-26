@@ -49,7 +49,10 @@ app.get(
 	require("./handlers/getPapersJournal")
 );
 
-app.get("/getPapersReviewer/:id", require("./handlers/getPapersReviewer"));
+app.get(
+	"/getPapersReviewer/:id/:status?",
+	require("./handlers/getPapersReviewer")
+);
 
 app.get("/getPaperInfo/:id", require("./handlers/getPaperInfo"));
 
