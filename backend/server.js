@@ -80,6 +80,11 @@ app.post("/loginAdmin", require("./handlers/loginAdmin"));
 
 app.post("/submitPaper", require("./handlers/submitPaper"));
 
+app.post(
+	"/changeReviewerStatus/:paper_id/:reviewer_id/:status",
+	require("./handlers/changeReviewerStatus")
+);
+
 app.listen(port, () => {
 	console.log(`Server is running on port: ${port}`);
 });
