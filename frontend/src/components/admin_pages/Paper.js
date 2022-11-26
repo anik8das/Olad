@@ -1,9 +1,11 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import Select from "react-select";
 
-export default function Paper(props) {
+export default function Paper() {
+	let { paperID } = useParams();
 	const [info, setInfo] = useState({});
 	const [matches, setMatches] = useState([]);
 	const [reviewers, setReviewers] = useState([]); // for the select react component
@@ -17,9 +19,10 @@ export default function Paper(props) {
 
 	const getInfo = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPaperInfo/${props.paperID}`
+			`http://localhost:3000/getPaperInfo/${paperID}`
 		);
 		if (res.data.err === null) {
+			console.log(res.data);
 			setInfo(res.data.paper);
 			setMatches(res.data.matches);
 		}
@@ -46,7 +49,7 @@ export default function Paper(props) {
 
 	const removeReviewer = async (reviewerID) => {
 		const res = await Axios.post(
-			`http://localhost:3000/changeReviewerStatus/${props.paperID}/${reviewerID}/0`
+			`http://localhost:3000/changeReviewerStatus/${paperID}/${reviewerID}/0`
 		);
 		if (res.data.err === null) {
 			// Todo: Pop modal
@@ -58,7 +61,7 @@ export default function Paper(props) {
 	const assignPaper = async () => {
 		console.log(reviewerList, reviewerMap, reviewers);
 		const res = await Axios.post(
-			`http://localhost:3000/assignPaper/${props.paperID}`,
+			`http://localhost:3000/assignPaper/${paperID}`,
 			{
 				reviewers: reviewerList,
 			}
@@ -124,18 +127,26 @@ export default function Paper(props) {
 								<tr key={index}>
 									<td>{reviewerMap[value.reviewer_id]}</td>
 									<td>{statusMap[value.status]}</td>
-									<td>
-										<Button
-											variant="warning"
-											onClick={() =>
-												removeReviewer(
-													value.reviewer_id
-												)
-											}
-										>
-											Remove
-										</Button>
-									</td>
+									<td>{statusMap[value.status]}</td>
+									{statusMap[value.status] !== 2 && (
+										<td>
+											<Button
+												variant="warning"
+												onClick={() =>
+													removeReviewer(
+														value.reviewer_id
+													)
+												}
+											>
+												Remove
+											</Button>
+										</td>
+									)}
+									{statusMap[value.status] === 2 && (
+										<td>
+											{statusMap[value.rejection_reason]}
+										</td>
+									)}
 								</tr>
 							);
 						})}

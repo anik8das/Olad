@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Dropdown, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -9,6 +10,7 @@ export default function Dashboard() {
 	const [papers, setPapers] = useState([]);
 	const [reviewers, setReviewers] = useState([]);
 	const [reviewerMap, setReviewerMap] = useState(new Map());
+	const [pending, setPending] = useState(true);
 
 	const assignPaper = async (paper_id) => {
 		const res = await Axios.post(
@@ -19,7 +21,7 @@ export default function Dashboard() {
 		);
 		if (res.data === "") {
 			setReviewerMap(new Map());
-			getPendingPapers();
+			getPapers();
 		} else {
 			// setModalTitle("Email already in use");
 			// setModalBody(
@@ -28,8 +30,10 @@ export default function Dashboard() {
 			// setShowModal(true);
 		}
 	};
-	const getPendingPapers = async () => {
-		const res = await Axios.get(`http://localhost:3000/getPendingPapers`);
+	const getPapers = async () => {
+		const res = await Axios.get(
+			`http://localhost:3000/getPapersAdmin/${pending ? 0 : 1}`
+		);
 		if (res.data.err === null) {
 			setPapers(res.data.papers);
 		} else {
@@ -40,6 +44,7 @@ export default function Dashboard() {
 			// setShowModal(true);
 		}
 	};
+
 	const getReviewers = async () => {
 		const res = await Axios.get(`http://localhost:3000/getReviewers`);
 		if (res.data.err === null) {
@@ -53,9 +58,13 @@ export default function Dashboard() {
 	};
 
 	useEffect(() => {
-		getPendingPapers();
+		getPapers();
 		getReviewers();
 	}, [user]);
+
+	useEffect(() => {
+		getPapers();
+	}, [pending]);
 
 	return (
 		<div
@@ -71,27 +80,25 @@ export default function Dashboard() {
 		>
 			<Container className="w-75 pt-5">
 				<div className="mb-4 d-flex flex-row">
-					<div className="h2">Papers pending assignments</div>
+					<div className="h2">
+						Papers {pending ? "pending assignments" : "in progress"}
+					</div>
 					<div className="ms-auto">
 						<Dropdown>
 							<Dropdown.Toggle
 								variant="secondary"
 								id="dropdown-basic"
 							>
-								Filter by
+								Show
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item href="#/action-1">
-									All
+								<Dropdown.Item onClick={() => setPending(true)}>
+									Pending
 								</Dropdown.Item>
-								<Dropdown.Item href="#/action-2">
-									Submitted
-								</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">
-									In progress
-								</Dropdown.Item>
-								<Dropdown.Item href="#/action-3">
-									Completed
+								<Dropdown.Item
+									onClick={() => setPending(false)}
+								>
+									In Progress
 								</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
@@ -101,7 +108,7 @@ export default function Dashboard() {
 					For a full list of reviewers and their interests, go to the
 					Reviewers page!
 				</div>
-				<Table hover>
+				<Table hover responsive>
 					<thead>
 						<tr>
 							<th>#</th>
@@ -118,7 +125,14 @@ export default function Dashboard() {
 						{papers.map(function (object, i) {
 							return (
 								<tr key={i}>
-									<td>{object.id}</td>
+									<td>
+										<Link
+											to={`/paper/${object.id}`}
+											replace={true}
+										>
+											{object.id}
+										</Link>
+									</td>
 									<td>{object.title}</td>
 									<td>{object.journal_id}</td>
 									<td>{object.open_review}</td>
