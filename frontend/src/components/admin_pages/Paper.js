@@ -6,12 +6,13 @@ import Select from "react-select";
 export default function Paper(props) {
 	const [info, setInfo] = useState({});
 	const [matches, setMatches] = useState([]);
-	const [reviewers, setReviewers] = useState([]);
-	const [reviewerMap, setReviewerMap] = useState({});
+	const [reviewers, setReviewers] = useState([]); // for the select react component
+	const [reviewerMap, setReviewerMap] = useState({}); // for getting reviewer details in constant time
+	const [reviewerList, setReviewerList] = useState([]); // for storing the new matches
 	const statusMap = {
 		0: "Assigned",
 		1: "Accepted",
-		2: "Completed",
+		2: "Rejected",
 	};
 
 	const getInfo = async () => {
@@ -40,6 +41,37 @@ export default function Paper(props) {
 					{}
 				)
 			);
+		}
+	};
+
+	const removeReviewer = async (reviewerID) => {
+		const res = await Axios.post(
+			`http://localhost:3000/changeReviewerStatus/${props.paperID}/${reviewerID}/0`
+		);
+		if (res.data.err === null) {
+			// Todo: Pop modal
+			console.log("Successfully removed reviewed");
+			getInfo();
+		}
+	};
+
+	const assignPaper = async () => {
+		console.log(reviewerList, reviewerMap, reviewers);
+		const res = await Axios.post(
+			`http://localhost:3000/assignPaper/${props.paperID}`,
+			{
+				reviewers: reviewerList,
+			}
+		);
+		console.log(res);
+		if (res.data === "") {
+			getInfo();
+		} else {
+			// setModalTitle("Email already in use");
+			// setModalBody(
+			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
+			// );
+			// setShowModal(true);
 		}
 	};
 
@@ -93,7 +125,14 @@ export default function Paper(props) {
 									<td>{reviewerMap[value.reviewer_id]}</td>
 									<td>{statusMap[value.status]}</td>
 									<td>
-										<Button variant="secondary">
+										<Button
+											variant="warning"
+											onClick={() =>
+												removeReviewer(
+													value.reviewer_id
+												)
+											}
+										>
 											Remove
 										</Button>
 									</td>
@@ -109,8 +148,15 @@ export default function Paper(props) {
 						isMulti={true}
 						className="w-75"
 						placeholder="Assign more reviewers"
+						onChange={(revList) => {
+							setReviewerList(revList.map((item) => item.value));
+						}}
 					/>
-					<Button className="ml-2 pl-2" variant="secondary">
+					<Button
+						className="ml-2 pl-2"
+						variant="secondary"
+						onClick={() => assignPaper()}
+					>
 						Assign
 					</Button>
 				</div>

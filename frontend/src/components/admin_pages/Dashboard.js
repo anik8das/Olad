@@ -18,6 +18,7 @@ export default function Dashboard() {
 			}
 		);
 		if (res.data === "") {
+			setReviewerMap(new Map());
 			getPendingPapers();
 		} else {
 			// setModalTitle("Email already in use");
@@ -125,9 +126,11 @@ export default function Dashboard() {
 									<td>{object.link}</td>
 									<td>
 										<Select
+											key={i}
 											options={reviewers}
 											isClearable={true}
 											isMulti={true}
+											value={reviewerMap[object.id]}
 											onChange={(item) => {
 												setReviewerMap(
 													(map) =>
