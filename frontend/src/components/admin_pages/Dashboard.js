@@ -108,75 +108,101 @@ export default function Dashboard() {
 					For a full list of reviewers and their interests, go to the
 					Reviewers page!
 				</div>
-				<Table hover responsive>
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Title</th>
-							<th>Journal</th>
-							<th>Open</th>
-							<th>Blind</th>
-							<th>Link</th>
-							<th>Reviewers</th>
-							<th>Assign</th>
-						</tr>
-					</thead>
-					<tbody>
-						{papers.map(function (object, i) {
-							return (
-								<tr key={i}>
-									<td>
-										<Link
-											to={`/paper/${object.id}`}
-											replace={true}
-										>
-											{object.id}
-										</Link>
-									</td>
-									<td>{object.title}</td>
-									<td>{object.journal_id}</td>
-									<td>{object.open_review}</td>
-									<td>{object.double_blind}</td>
-									<td>{object.link}</td>
-									<td>
-										<Select
-											key={i}
-											options={reviewers}
-											isClearable={true}
-											isMulti={true}
-											value={reviewerMap[object.id]}
-											onChange={(item) => {
-												setReviewerMap(
-													(map) =>
-														new Map(
-															map.set(
-																object.id,
-																item.map(
-																	(elem) =>
-																		elem.value
+				{papers.length > 0 ? (
+					<Table hover responsive>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Title</th>
+								<th>Journal</th>
+								<th>Open</th>
+								<th>Blind</th>
+								<th>Link</th>
+								<th>Reviewers</th>
+								<th>Assign</th>
+							</tr>
+						</thead>
+						<tbody>
+							{papers.map(function (object, i) {
+								return (
+									<tr key={i}>
+										<td>
+											<Link
+												to={`/paperAdmin/${object.id}`}
+												replace={true}
+											>
+												{object.id}
+											</Link>
+										</td>
+										<td>{object.title}</td>
+										<td>{object.journal_id}</td>
+										<td>{object.open_review}</td>
+										<td>{object.double_blind}</td>
+										<td>{object.link}</td>
+										<td>
+											<Select
+												key={i}
+												options={reviewers}
+												isClearable={true}
+												isMulti={true}
+												value={reviewerMap[object.id]}
+												onChange={(item) => {
+													setReviewerMap(
+														(map) =>
+															new Map(
+																map.set(
+																	object.id,
+																	item.map(
+																		(
+																			elem
+																		) =>
+																			elem.value
+																	)
 																)
 															)
-														)
-												);
-											}}
-											className="mb-4"
-										/>
-									</td>
-									<td>
-										<Button
-											variant="secondary"
-											onClick={() =>
-												assignPaper(object.id)
-											}
-										>
-											Assign
-										</Button>
-									</td>
-								</tr>
-							);
-						})}
-					</tbody>
-				</Table>
+													);
+												}}
+												className="mb-4"
+											/>
+										</td>
+										<td>
+											<Button
+												variant="secondary"
+												onClick={() =>
+													assignPaper(object.id)
+												}
+											>
+												Assign
+											</Button>
+										</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</Table>
+				) : pending === true ? (
+					<div className="d-flex ">
+						No pending papers!
+						<div
+							className="text-decoration-underline"
+							onClick={() => setPending(false)}
+						>
+							{" "}
+							Show in progress papers{" "}
+						</div>
+					</div>
+				) : (
+					<div className="d-flex ">
+						No in progress papers!
+						<div
+							className="text-decoration-underline"
+							onClick={() => setPending(true)}
+						>
+							{" "}
+							Show pending papers{" "}
+						</div>
+					</div>
+				)}
 			</Container>
 		</div>
 	);

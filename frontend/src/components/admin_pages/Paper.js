@@ -22,7 +22,6 @@ export default function Paper() {
 			`http://localhost:3000/getPaperInfo/${paperID}`
 		);
 		if (res.data.err === null) {
-			console.log(res.data);
 			setInfo(res.data.paper);
 			setMatches(res.data.matches);
 		}
@@ -99,7 +98,10 @@ export default function Paper() {
 						</tr>
 						<tr>
 							<th>Link</th>
-							<td>{info.link}</td>
+							<td>
+								{info.link}{" "}
+								<Button variant="link">change link</Button>
+							</td>
 						</tr>
 						<tr>
 							<th>Submission Date</th>
@@ -120,15 +122,14 @@ export default function Paper() {
 					</tbody>
 				</Table>
 				<div className="h2 mb-3 mt-3">Reviewers Assigned</div>
-				<Table>
+				<Table className="mb-3">
 					<tbody>
 						{matches.map((value, index) => {
 							return (
 								<tr key={index}>
 									<td>{reviewerMap[value.reviewer_id]}</td>
 									<td>{statusMap[value.status]}</td>
-									<td>{statusMap[value.status]}</td>
-									{statusMap[value.status] !== 2 && (
+									{value.status !== 2 && (
 										<td>
 											<Button
 												variant="warning"
@@ -142,9 +143,9 @@ export default function Paper() {
 											</Button>
 										</td>
 									)}
-									{statusMap[value.status] === 2 && (
+									{value.status === 2 && (
 										<td>
-											{statusMap[value.rejection_reason]}
+											Reason: {value.rejection_reason}
 										</td>
 									)}
 								</tr>

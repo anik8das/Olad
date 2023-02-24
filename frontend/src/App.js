@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 import NavBar from "./components/NavBar";
 import { default as DashboardReviewer } from "./components/reviewer_pages/Dashboard";
+import { default as PaperReviewer } from "./components/reviewer_pages/Paper";
 import Signup from "./components/signup/Signup";
 
 import ProtectedRoutesAdmin from "./components/protected_routes/ProtectedRoutesAdmin";
@@ -60,7 +61,7 @@ function App() {
 								element={<DashboardAdmin />}
 							/>
 							<Route
-								path="/paper/:paperID"
+								path="/paperAdmin/:paperID"
 								element={<PaperAdmin />}
 							/>
 							<Route path="/reviewers" element={<Reviewers />} />
@@ -75,6 +76,10 @@ function App() {
 							<Route
 								path="dashboardReviewer"
 								element={<DashboardReviewer />}
+							/>
+							<Route
+								path="/paperReviewer/:paperID"
+								element={<PaperReviewer />}
 							/>
 						</Route>
 						<Route path="/logout" element={<Logout />} />

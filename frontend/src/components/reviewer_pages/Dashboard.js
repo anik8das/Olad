@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Dropdown, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import RejectionModal from "./RejectionModal";
 
@@ -9,10 +10,13 @@ export default function Dashboard() {
 	const [papers, setPapers] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [modalPaper, setModalPaper] = useState("");
+	const [pending, setPending] = useState(true);
 
 	const getPapers = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPapersReviewer/${user.userInfo.id}/0`
+			`http://localhost:3000/getPapersReviewer/${user.userInfo.id}/${
+				pending ? 0 : 1
+			}`
 		);
 		if (res.data.err === null) {
 			console.log("papers updated");
@@ -22,7 +26,7 @@ export default function Dashboard() {
 
 	const acceptPaper = async (paperID) => {
 		const res = await Axios.post(
-			`http://localhost:3000/changeReviewerStatus/${paperID}/${user.userInfo.id}/1`
+			`http://localhost:3000/changeReviewerStatus/${paperID}/${user.userInfo.id}/3`
 		);
 		getPapers();
 	};
@@ -36,32 +40,32 @@ export default function Dashboard() {
 		setShowModal(false);
 	};
 
+	const finishReview = async () => {};
+
 	useEffect(() => {
 		getPapers();
-	}, []);
+	}, [pending]);
 
 	return (
 		<Container className="w-75 mt-5">
 			<div className="mb-4 d-flex flex-row">
-				<div className="h2">Assigned papers</div>
+				<div className="h2">
+					{pending ? "Assigned" : "In progress"} papers
+				</div>
 				<div className="ms-auto">
 					<Dropdown>
 						<Dropdown.Toggle
 							variant="secondary"
 							id="dropdown-basic"
 						>
-							Filter by
+							Show
 						</Dropdown.Toggle>
 						<Dropdown.Menu className="text-center">
-							<Dropdown.Item href="#/action-1">All</Dropdown.Item>
-							<Dropdown.Item href="#/action-2">
-								Submitted
+							<Dropdown.Item onClick={() => setPending(true)}>
+								Pending
 							</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">
-								In progress
-							</Dropdown.Item>
-							<Dropdown.Item href="#/action-3">
-								Completed
+							<Dropdown.Item onClick={() => setPending(false)}>
+								In Progress
 							</Dropdown.Item>
 						</Dropdown.Menu>
 					</Dropdown>
@@ -82,31 +86,55 @@ export default function Dashboard() {
 					{papers.map(function (object, i) {
 						return (
 							<tr key={i}>
-								<td>{i}</td>
+								<td>
+									<Link
+										to={`/paperReviewer/${object.id}`}
+										replace={true}
+									>
+										{object.id}
+									</Link>
+								</td>
 								<td>{object.title}</td>
 								<td>{object.status}</td>
 								<td>{object.open_review}</td>
 								<td>{object.double_blind}</td>
 								<td>{object.link}</td>
-								<td>
-									<Button
-										variant="danger"
-										onClick={() => {
-											setModalPaper(object.id);
-											setShowModal(true);
-										}}
-									>
-										Reject
-									</Button>
-								</td>
-								<td>
-									<Button
-										variant="success"
-										onClick={() => acceptPaper(object.id)}
-									>
-										Accept
-									</Button>
-								</td>
+								{pending ? (
+									<React.Fragment>
+										<td>
+											<Button
+												variant="danger"
+												onClick={() => {
+													setModalPaper(object.id);
+													setShowModal(true);
+												}}
+											>
+												Reject
+											</Button>
+										</td>
+										<td>
+											<Button
+												variant="success"
+												onClick={() =>
+													finishReview(object.id)
+												}
+											>
+												Accept
+											</Button>
+										</td>
+									</React.Fragment>
+								) : (
+									<td>
+										<Button
+											variant="success"
+											onClick={() =>
+												acceptPaper(object.id)
+											}
+										>
+											Submit review
+										</Button>
+									</td>
+								)}
 							</tr>
 						);
 					})}
