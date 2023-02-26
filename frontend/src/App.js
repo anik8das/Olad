@@ -39,6 +39,8 @@ function App() {
 			if (res.data.loggedIn === true) {
 				console.log(res.data);
 				setUser(res.data);
+			} else {
+				console.log("not logged in");
 			}
 			setLoading(false);
 		};

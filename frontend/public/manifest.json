@@ -1,0 +1,26 @@
+{
+	"short_name": "Olad",
+	"name": "Olad: Peer review as a service",
+	"icons": [
+		{
+			"src": "favicon.ico",
+			"type": "image/png"
+		},
+		{
+			"src": "aboutBg.jpg",
+			"type": "image/jpg"
+		},
+		{
+			"src": "dashboardBg.png",
+			"type": "image/jpg"
+		},
+		{
+			"src": "homeBg.jpg",
+			"type": "image/jpg"
+		}
+	],
+	"start_url": "https://main--profound-travesseiro-11e57a.netlify.app/",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff"
+}
