@@ -14,9 +14,9 @@ export default function Dashboard() {
 
 	const getPapers = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPapersReviewer/${user.userInfo.id}/${
-				pending ? 0 : 1
-			}`
+			`https://olad-backend.herokuapp.com/getPapersReviewer/${
+				user.userInfo.id
+			}/${pending ? 0 : 1}`
 		);
 		if (res.data.err === null) {
 			console.log("papers updated");
@@ -26,14 +26,14 @@ export default function Dashboard() {
 
 	const acceptPaper = async (paperID) => {
 		const res = await Axios.post(
-			`http://localhost:3000/changeReviewerStatus/${paperID}/${user.userInfo.id}/3`
+			`https://olad-backend.herokuapp.com/changeReviewerStatus/${paperID}/${user.userInfo.id}/3`
 		);
 		getPapers();
 	};
 
 	const rejectPaper = async (reason) => {
 		const res = await Axios.post(
-			`http://localhost:3000/changeReviewerStatus/${modalPaper}/${user.userInfo.id}/2`,
+			`https://olad-backend.herokuapp.com/changeReviewerStatus/${modalPaper}/${user.userInfo.id}/2`,
 			{ reason: reason }
 		);
 		getPapers();

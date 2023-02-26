@@ -14,10 +14,13 @@ export default function LoginAdmin() {
 	const [redirect, setRedirect] = useState(false);
 	const { setUser } = useContext(UserContext);
 	const login = async (formData) => {
-		const res = await Axios.post("http://localhost:3000/loginAdmin", {
-			email: formData.target.form[0].value,
-			password: formData.target.form[1].value,
-		});
+		const res = await Axios.post(
+			"https://olad-backend.herokuapp.com/loginAdmin",
+			{
+				email: formData.target.form[0].value,
+				password: formData.target.form[1].value,
+			}
+		);
 		if (
 			res.data.err === null &&
 			res.data.accountExists === 1 &&

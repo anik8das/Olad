@@ -18,7 +18,7 @@ export default function Paper() {
 
 	const getInfo = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPaperInfo/${paperID}`
+			`https://olad-backend.herokuapp.com/getPaperInfo/${paperID}`
 		);
 		if (res.data.err === null) {
 			setInfo(res.data.paper);
@@ -28,7 +28,9 @@ export default function Paper() {
 	};
 
 	const getReviewers = async () => {
-		const res = await Axios.get(`http://localhost:3000/getReviewers`);
+		const res = await Axios.get(
+			`https://olad-backend.herokuapp.com/getReviewers`
+		);
 		if (res.data.err === null) {
 			setReviewerMap(
 				res.data.reviewers.reduce(
@@ -42,7 +44,7 @@ export default function Paper() {
 
 	const changeStatus = async (status) => {
 		const res = await Axios.post(
-			`http://localhost:3000/changeReviewerStatus/${paperID}/${user.userInfo.id}/${status}`
+			`https://olad-backend.herokuapp.com/changeReviewerStatus/${paperID}/${user.userInfo.id}/${status}`
 		);
 		if (res.data.err === null) {
 			setReviewerMap(

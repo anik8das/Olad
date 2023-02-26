@@ -10,7 +10,7 @@ export default function Dashboard() {
 
 	const getPapers = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPapersJournal/${user.userInfo.id}/${filter}`
+			`https://olad-backend.herokuapp.com/getPapersJournal/${user.userInfo.id}/${filter}`
 		);
 		if (res.data.err === null) {
 			console.log("papers updated");
@@ -35,7 +35,7 @@ export default function Dashboard() {
 		formData.append("openReview", openReview);
 		formData.append("info", info);
 
-		// const res = await Axios.post("http://localhost:3000/submitPaper", {
+		// const res = await Axios.post("https://olad-backend.herokuapp.com/submitPaper", {
 		// 	journal_id: user.userInfo.id,
 		// 	title: title,
 		// 	openReview: openReview,
@@ -44,7 +44,7 @@ export default function Dashboard() {
 		// 	info: info,
 		// });
 		const res = await Axios.post(
-			"http://localhost:3000/submitPaper",
+			"https://olad-backend.herokuapp.com/submitPaper",
 			formData,
 			{
 				headers: {

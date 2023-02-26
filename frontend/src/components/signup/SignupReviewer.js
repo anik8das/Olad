@@ -13,7 +13,7 @@ export default function SignupReviewer() {
 	const [interests, setInterests] = useState(new Set([]));
 	const createAccountReviewer = (formData) => {
 		// todo: verify everything
-		Axios.post("http://localhost:3000/createReviewer", {
+		Axios.post("https://olad-backend.herokuapp.com/createReviewer", {
 			name: formData.target.form[0].value,
 			website: formData.target.form[1].value,
 			interests: [...interests].join(","),

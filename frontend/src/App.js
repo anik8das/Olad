@@ -33,7 +33,9 @@ function App() {
 	Axios.defaults.withCredentials = true;
 	useEffect(() => {
 		const loggedIn = async () => {
-			const res = await Axios.get("http://localhost:3000/login");
+			const res = await Axios.get(
+				"https://olad-backend.herokuapp.com/login"
+			);
 			if (res.data.loggedIn === true) {
 				console.log(res.data);
 				setUser(res.data);

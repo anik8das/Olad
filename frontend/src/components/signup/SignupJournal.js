@@ -10,7 +10,7 @@ export default function SignupJournal() {
 	const [modalBody, setModalBody] = useState("");
 	const [redirect, setRedirect] = useState(false);
 	const createAccountJournal = (formData) => {
-		Axios.post("http://localhost:3000/createJournal", {
+		Axios.post("https://olad-backend.herokuapp.com/createJournal", {
 			name: formData.target.form[0].value,
 			website: formData.target.form[1].value,
 			email: formData.target.form[2].value,

@@ -7,7 +7,7 @@ export default function Logout() {
 	const { setUser } = useContext(UserContext);
 	useEffect(() => {
 		const logout = async () => {
-			await Axios.get("http://localhost:3000/logout");
+			await Axios.get("https://olad-backend.herokuapp.com/logout");
 			setUser({
 				loggedIn: false,
 				userInfo: {},

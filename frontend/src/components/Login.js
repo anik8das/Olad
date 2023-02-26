@@ -17,11 +17,14 @@ export default function Login() {
 	const [redirect, setRedirect] = useState(false);
 	const { setUser } = useContext(UserContext);
 	const login = async (formData) => {
-		const res = await Axios.post("http://localhost:3000/login", {
-			email: formData.target.form[2].value,
-			password: formData.target.form[3].value,
-			journal: journalToggle,
-		});
+		const res = await Axios.post(
+			"https://olad-backend.herokuapp.com/login",
+			{
+				email: formData.target.form[2].value,
+				password: formData.target.form[3].value,
+				journal: journalToggle,
+			}
+		);
 		if (
 			res.data.err === null &&
 			res.data.accountExists === 1 &&

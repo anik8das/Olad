@@ -10,7 +10,7 @@ export default function Reviewers() {
 
 	const getReviewers = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getReviewers/${filter}`
+			`https://olad-backend.herokuapp.com/getReviewers/${filter}`
 		);
 		if (res.data.err === null) {
 			setReviewers(res.data.reviewers);
@@ -18,7 +18,9 @@ export default function Reviewers() {
 	};
 
 	const getInterests = async () => {
-		const res = await Axios.get(`http://localhost:3000/getInterests`);
+		const res = await Axios.get(
+			`https://olad-backend.herokuapp.com/getInterests`
+		);
 		if (res.data.err === null) {
 			setInterest(
 				res.data.interests.map((interest) => ({

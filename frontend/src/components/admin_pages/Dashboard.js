@@ -14,7 +14,7 @@ export default function Dashboard() {
 
 	const assignPaper = async (paper_id) => {
 		const res = await Axios.post(
-			`http://localhost:3000/assignPaper/${paper_id}`,
+			`https://olad-backend.herokuapp.com/assignPaper/${paper_id}`,
 			{
 				reviewers: reviewerMap.get(paper_id),
 			}
@@ -32,7 +32,9 @@ export default function Dashboard() {
 	};
 	const getPapers = async () => {
 		const res = await Axios.get(
-			`http://localhost:3000/getPapersAdmin/${pending ? 0 : 1}`
+			`https://olad-backend.herokuapp.com/getPapersAdmin/${
+				pending ? 0 : 1
+			}`
 		);
 		if (res.data.err === null) {
 			setPapers(res.data.papers);
@@ -46,7 +48,9 @@ export default function Dashboard() {
 	};
 
 	const getReviewers = async () => {
-		const res = await Axios.get(`http://localhost:3000/getReviewers`);
+		const res = await Axios.get(
+			`https://olad-backend.herokuapp.com/getReviewers`
+		);
 		if (res.data.err === null) {
 			setReviewers(
 				res.data.reviewers.map((reviewer) => ({
