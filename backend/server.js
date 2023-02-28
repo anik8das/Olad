@@ -28,7 +28,7 @@ const port = process.env.PORT || 3000;
 
 app.use(
 	cors({
-		origin: ["http://localhost:3001"],
+		origin: ["https://main--profound-travesseiro-11e57a.netlify.app"],
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
