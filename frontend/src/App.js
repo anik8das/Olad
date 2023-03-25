@@ -1,10 +1,10 @@
 import About from "./components/About";
+import Account from "./components/Account";
 import { default as DashboardAdmin } from "./components/admin_pages/Dashboard";
 import LoginAdmin from "./components/admin_pages/Login";
 import { default as PaperAdmin } from "./components/admin_pages/Paper";
 import Reviewers from "./components/admin_pages/Reviewers";
 import Homepage from "./components/Homepage";
-import Account from "./components/journal_pages/Account";
 import { default as DashboardJournal } from "./components/journal_pages/Dashboard";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
