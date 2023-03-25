@@ -7,6 +7,12 @@ export default function Dashboard() {
 	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [filter, setFilter] = useState(-1);
+	const statusMap = {
+		0: "Submitted",
+		1: "Assigned",
+		2: "In progress",
+		3: "Completed",
+	};
 
 	const getPapers = async () => {
 		const res = await Axios.get(
@@ -192,10 +198,18 @@ export default function Dashboard() {
 								<tr key={i}>
 									<td>{i}</td>
 									<td>{object.title}</td>
-									<td>{object.status}</td>
-									<td>{object.open_review}</td>
-									<td>{object.double_blind}</td>
-									<td>{object.link}</td>
+									<td>{statusMap[object.status]}</td>
+									<td>{object.open_review !== 0}</td>
+									<td>{object.double_blind !== 0}</td>
+									<td>
+										<a
+											href={object.link}
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											Example Link
+										</a>
+									</td>
 								</tr>
 							);
 						})}
