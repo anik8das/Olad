@@ -2,21 +2,12 @@ import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Dropdown, Form, Table } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
+import { boolMap, statusMapPaper } from "../Constants";
 
 export default function Dashboard() {
 	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [filter, setFilter] = useState(-1);
-	const statusMap = {
-		0: "Submitted",
-		1: "Assigned",
-		2: "In progress",
-		3: "Completed",
-	};
-	const boolMap = {
-		0: "No",
-		1: "Yes",
-	};
 
 	const getPapers = async () => {
 		const res = await Axios.get(
@@ -202,7 +193,7 @@ export default function Dashboard() {
 								<tr key={i}>
 									<td>{i}</td>
 									<td>{object.title}</td>
-									<td>{statusMap[object.status]}</td>
+									<td>{statusMapPaper[object.status]}</td>
 									<td>{boolMap[object.open_review]}</td>
 									<td>{boolMap[object.double_blind]}</td>
 									<td>

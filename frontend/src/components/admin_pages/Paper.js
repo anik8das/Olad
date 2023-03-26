@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
+import { statusMapReviewer } from "../Constants";
 
 export default function Paper() {
 	let { paperID } = useParams();
@@ -11,11 +12,6 @@ export default function Paper() {
 	const [reviewers, setReviewers] = useState([]); // for the select react component
 	const [reviewerMap, setReviewerMap] = useState({}); // for getting reviewer details in constant time
 	const [reviewerList, setReviewerList] = useState([]); // for storing the new matches
-	const statusMap = {
-		0: "Assigned",
-		1: "Accepted",
-		2: "Rejected",
-	};
 
 	const getInfo = async () => {
 		const res = await Axios.get(
@@ -130,7 +126,7 @@ export default function Paper() {
 							return (
 								<tr key={index}>
 									<td>{reviewerMap[value.reviewer_id]}</td>
-									<td>{statusMap[value.status]}</td>
+									<td>{statusMapReviewer[value.status]}</td>
 									{value.status !== 2 && (
 										<td>
 											<Button

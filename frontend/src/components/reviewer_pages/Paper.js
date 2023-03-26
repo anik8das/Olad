@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { statusMapReviewer } from "../Constants";
 
 export default function Paper() {
 	let { paperID } = useParams();
@@ -10,11 +11,6 @@ export default function Paper() {
 	const [info, setInfo] = useState({});
 	const [matches, setMatches] = useState([]);
 	const [reviewerMap, setReviewerMap] = useState({});
-	const statusMap = {
-		0: "Assigned",
-		1: "Accepted",
-		2: "Rejected",
-	};
 
 	const getInfo = async () => {
 		const res = await Axios.get(
@@ -107,7 +103,7 @@ export default function Paper() {
 								<tr key={index}>
 									<td>{reviewerMap[value.reviewer_id]}</td>
 									<td>
-										{statusMap[value.status] +
+										{statusMapReviewer[value.status] +
 											value.status ===
 										2
 											? `Reason: ${value.rejection_reason}`
