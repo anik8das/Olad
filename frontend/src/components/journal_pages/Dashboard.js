@@ -13,6 +13,10 @@ export default function Dashboard() {
 		2: "In progress",
 		3: "Completed",
 	};
+	const boolMap = {
+		0: "No",
+		1: "Yes",
+	};
 
 	const getPapers = async () => {
 		const res = await Axios.get(
@@ -199,15 +203,15 @@ export default function Dashboard() {
 									<td>{i}</td>
 									<td>{object.title}</td>
 									<td>{statusMap[object.status]}</td>
-									<td>{object.open_review !== 0}</td>
-									<td>{object.double_blind !== 0}</td>
+									<td>{boolMap[object.open_review]}</td>
+									<td>{boolMap[object.double_blind]}</td>
 									<td>
 										<a
 											href={object.link}
 											target="_blank"
 											rel="noopener noreferrer"
 										>
-											Example Link
+											Link
 										</a>
 									</td>
 								</tr>
