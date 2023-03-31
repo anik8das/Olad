@@ -4,13 +4,18 @@ import { Button, Container, Dropdown, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { UserContext } from "../../contexts/UserContext";
+import AlertModal from "../AlertModal";
+import { boolMap, statusMapPaper } from "../Constants";
 
 export default function Dashboard() {
 	const { user } = useContext(UserContext);
 	const [papers, setPapers] = useState([]);
 	const [reviewers, setReviewers] = useState([]);
 	const [reviewerMap, setReviewerMap] = useState(new Map());
-	const [pending, setPending] = useState(true);
+	const [status, setStatus] = useState(0);
+	const [showModal, setShowModal] = useState(false);
+	const [modalTitle, setModalTitle] = useState("");
+	const [modalBody, setModalBody] = useState("");
 
 	const assignPaper = async (paper_id) => {
 		const res = await Axios.post(
@@ -22,28 +27,27 @@ export default function Dashboard() {
 		if (res.data === "") {
 			setReviewerMap(new Map());
 			getPapers();
+			setModalTitle("Success");
+			setModalBody(
+				"Successfully assigned reviewers to the paper. You can click the paper index to view more details on the paper"
+			);
+			setShowModal(true);
 		} else {
-			// setModalTitle("Email already in use");
-			// setModalBody(
-			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
-			// );
-			// setShowModal(true);
+			setModalTitle("Error while assigning reviewers!");
+			setModalBody("Please try again.");
+			setShowModal(true);
 		}
 	};
 	const getPapers = async () => {
 		const res = await Axios.get(
-			`https://olad-backend.herokuapp.com/getPapersAdmin/${
-				pending ? 0 : 1
-			}`
+			`https://olad-backend.herokuapp.com/getPapersAdmin/${status}`
 		);
 		if (res.data.err === null) {
 			setPapers(res.data.papers);
 		} else {
-			// setModalTitle("Email already in use");
-			// setModalBody(
-			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
-			// );
-			// setShowModal(true);
+			setModalTitle("Error while getting papers!");
+			setModalBody("Please try again.");
+			setShowModal(true);
 		}
 	};
 
@@ -68,7 +72,7 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		getPapers();
-	}, [pending]);
+	}, [status]);
 
 	return (
 		<div
@@ -84,25 +88,39 @@ export default function Dashboard() {
 		>
 			<Container className="w-75 pt-5">
 				<div className="mb-4 d-flex flex-row">
-					<div className="h2">
-						Papers {pending ? "pending assignments" : "in progress"}
-					</div>
+					<div className="h2">Papers {statusMapPaper[status]}</div>
 					<div className="ms-auto">
 						<Dropdown>
 							<Dropdown.Toggle
 								variant="secondary"
 								id="dropdown-basic"
 							>
-								Show
+								Filter by
 							</Dropdown.Toggle>
 							<Dropdown.Menu className="text-center">
-								<Dropdown.Item onClick={() => setPending(true)}>
-									Pending
+								<Dropdown.Item
+									onClick={() => setStatus(0)}
+									href="#/action-2"
+								>
+									Submitted
 								</Dropdown.Item>
 								<Dropdown.Item
-									onClick={() => setPending(false)}
+									onClick={() => setStatus(1)}
+									href="#/action-2"
 								>
-									In Progress
+									Assigned
+								</Dropdown.Item>
+								<Dropdown.Item
+									onClick={() => setStatus(2)}
+									href="#/action-3"
+								>
+									In progress
+								</Dropdown.Item>
+								<Dropdown.Item
+									onClick={() => setStatus(3)}
+									href="#/action-3"
+								>
+									Completed
 								</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
@@ -140,8 +158,8 @@ export default function Dashboard() {
 										</td>
 										<td>{object.title}</td>
 										<td>{object.journal_id}</td>
-										<td>{object.open_review}</td>
-										<td>{object.double_blind}</td>
+										<td>{boolMap[object.open_review]}</td>
+										<td>{boolMap[object.double_blind]}</td>
 										<td>{object.link}</td>
 										<td>
 											<Select
@@ -184,30 +202,19 @@ export default function Dashboard() {
 							})}
 						</tbody>
 					</Table>
-				) : pending === true ? (
-					<div className="d-flex ">
-						No pending papers!
-						<div
-							className="text-decoration-underline"
-							onClick={() => setPending(false)}
-						>
-							{" "}
-							Show in progress papers{" "}
-						</div>
-					</div>
 				) : (
 					<div className="d-flex ">
-						No in progress papers!
-						<div
-							className="text-decoration-underline"
-							onClick={() => setPending(true)}
-						>
-							{" "}
-							Show pending papers{" "}
-						</div>
+						No papers to show! Try a different status in the
+						dropdown above
 					</div>
 				)}
 			</Container>
+			<AlertModal
+				showVariable={showModal}
+				changeVariable={setShowModal}
+				title={modalTitle}
+				body={modalBody}
+			/>
 		</div>
 	);
 }
