@@ -1,4 +1,4 @@
-const db = require("../db_local");
+const db = require("../db");
 
 const changeReviewerStatus = (req, res) => {
 	// 0 would imply deletion of this reviewer from the matches table (can only called by Admin)

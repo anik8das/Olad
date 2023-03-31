@@ -1,7 +1,7 @@
 const e = require("express");
 const mysql = require("mysql");
 
-const db = require("../db_local");
+const db = require("../db");
 
 const getReviewers = (req, res) => {
 	const query = `SELECT * FROM reviewers`;

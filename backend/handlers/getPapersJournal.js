@@ -1,4 +1,4 @@
-const db = require("../db_local");
+const db = require("../db");
 
 const getAllPapersJournal = (req, res) => {
 	var query = `SELECT * FROM papers WHERE journal_id = '${req.params.id}'`;

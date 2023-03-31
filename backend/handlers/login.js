@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 
-const db = require("../db_local");
+const db = require("../db");
 
 const login = (req, res) => {
 	const table = req.body.journal ? "journals" : "reviewers";

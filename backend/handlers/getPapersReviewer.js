@@ -1,5 +1,5 @@
 const e = require("express");
-const db = require("../db_local");
+const db = require("../db");
 
 const getPapersReviewer = (req, res) => {
 	var query = `SELECT paper_id FROM matches WHERE reviewer_id = '${req.params.id}'`;

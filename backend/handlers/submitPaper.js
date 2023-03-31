@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const upload = require("../google_drive/upload");
-const db = require("../db_local");
+const db = require("../db");
 
 const submitPaper = async (req, res) => {
 	var date = new Date();

@@ -7,7 +7,7 @@ const fileUpload = require("express-fileupload");
 
 require("dotenv").config();
 
-const db = require("./db_local");
+const db = require("./db");
 
 const app = express();
 app.use(bodyParser.urlencoded({ encoded: true }));
@@ -28,11 +28,12 @@ const port = process.env.PORT || 3000;
 
 app.use(
 	cors({
-		origin: ["https://main--profound-travesseiro-11e57a.netlify.app"],
+		origin: ["https://profound-travesseiro-11e57a.netlify.app"],
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
 );
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -82,6 +83,11 @@ app.post("/login", require("./handlers/login"));
 app.post("/loginAdmin", require("./handlers/loginAdmin"));
 
 app.post("/submitPaper", require("./handlers/submitPaper"));
+
+app.post(
+	"/changePaperStatus/:id/:status",
+	require("./handlers/changePaperStatus")
+);
 
 app.post(
 	"/changeReviewerStatus/:paper_id/:reviewer_id/:status",

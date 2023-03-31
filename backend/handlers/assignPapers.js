@@ -1,5 +1,5 @@
 const e = require("express");
-const db = require("../db_local");
+const db = require("../db");
 
 const assignPaper = (req, res) => {
 	var err = null;

@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const db = require("../db_local");
+const db = require("../db");
 
 const createReviewer = (req, res) => {
 	bcrypt.hash(req.body.password, saltRounds, (_, hash) => {
