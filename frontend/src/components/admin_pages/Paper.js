@@ -1,9 +1,10 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Container, Dropdown, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
-import { statusMapReviewer } from "../Constants";
+import AlertModal from "../AlertModal";
+import { boolMap, statusMapPaper, statusMapReviewer } from "../Constants";
 
 export default function Paper() {
 	let { paperID } = useParams();
@@ -12,6 +13,10 @@ export default function Paper() {
 	const [reviewers, setReviewers] = useState([]); // for the select react component
 	const [reviewerMap, setReviewerMap] = useState({}); // for getting reviewer details in constant time
 	const [reviewerList, setReviewerList] = useState([]); // for storing the new matches
+	const [showModal, setShowModal] = useState(false);
+	const [modalTitle, setModalTitle] = useState("");
+	const [modalBody, setModalBody] = useState("");
+	const [newStatus, setNewStatus] = useState(2);
 
 	const getInfo = async () => {
 		const res = await Axios.get(
@@ -67,11 +72,24 @@ export default function Paper() {
 		if (res.data === "") {
 			getInfo();
 		} else {
-			// setModalTitle("Email already in use");
-			// setModalBody(
-			// 	"Please use another email or login here. Contact us here if you think this is a mistake."
-			// );
-			// setShowModal(true);
+			setModalTitle("Failed to assign paper");
+			setModalBody("Please try again later");
+			setShowModal(true);
+		}
+	};
+
+	const startReview = async () => {
+		const res = await Axios.post(
+			`https://olad-backend.herokuapp.com/changePaperStatus/${paperID}/${newStatus}`
+		);
+		if (res.data.err === null) {
+			setModalTitle("Success!");
+			setModalBody("Changed paper status");
+			setShowModal(true);
+		} else {
+			setModalTitle("Failed to start review");
+			setModalBody("Please try again later");
+			setShowModal(true);
 		}
 	};
 
@@ -91,8 +109,16 @@ export default function Paper() {
 							<td>{info.id}</td>
 						</tr>
 						<tr>
+							<th>Paper title</th>
+							<td>{info.title}</td>
+						</tr>
+						<tr>
 							<th>Journal ID</th>
 							<td>{info.journal_id}</td>
+						</tr>
+						<tr>
+							<th>Journal Name</th>
+							<td>{info.journal_name}</td>
 						</tr>
 						<tr>
 							<th>Link</th>
@@ -107,15 +133,15 @@ export default function Paper() {
 						</tr>
 						<tr>
 							<th>Double Blinded</th>
-							<td>{info.double_blind}</td>
+							<td>{boolMap[info.double_blind]}</td>
 						</tr>
 						<tr>
 							<th>Open Review</th>
-							<td>{info.open_review}</td>
+							<td>{boolMap[info.open_review]}</td>
 						</tr>
 						<tr>
 							<th>Status</th>
-							<td>{info.status}</td>
+							<td>{statusMapPaper[info.status]}</td>
 						</tr>
 					</tbody>
 				</Table>
@@ -123,6 +149,7 @@ export default function Paper() {
 				<Table className="mb-3">
 					<tbody>
 						{matches.map((value, index) => {
+							console.log(value);
 							return (
 								<tr key={index}>
 									<td>{reviewerMap[value.reviewer_id]}</td>
@@ -170,10 +197,59 @@ export default function Paper() {
 						Assign
 					</Button>
 				</div>
-				<Button className="mx-auto d-flex" variant="secondary">
-					Start Review
-				</Button>
+				<div className="d-flex justify-content-around text-center">
+					<Dropdown>
+						<Dropdown.Toggle
+							variant="secondary"
+							id="dropdown-basic"
+						>
+							Change status to {statusMapPaper[newStatus]}
+						</Dropdown.Toggle>
+						<Dropdown.Menu className="text-center">
+							<Dropdown.Item
+								onClick={() => setNewStatus(0)}
+								href="#status-0"
+							>
+								Submitted
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setNewStatus(1)}
+								href="#status-1"
+							>
+								Assigned
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setNewStatus(2)}
+								href="#status-2"
+							>
+								In progress
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setNewStatus(3)}
+								href="#status-3"
+							>
+								Completed
+							</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
+					<Button
+						className=""
+						variant="warning"
+						onClick={() => {
+							startReview();
+							getInfo();
+						}}
+					>
+						Confirm change status
+					</Button>
+				</div>
 			</div>
+			<AlertModal
+				showVariable={showModal}
+				changeVariable={setShowModal}
+				title={modalTitle}
+				body={modalBody}
+			/>
 		</Container>
 	);
 }
