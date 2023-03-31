@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Dropdown, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { boolMap, statusMapPaper } from "../Constants";
 import RejectionModal from "./RejectionModal";
 
 export default function Dashboard() {
@@ -26,7 +27,7 @@ export default function Dashboard() {
 
 	const acceptPaper = async (paperID) => {
 		const res = await Axios.post(
-			`https://olad-backend.herokuapp.com/changeReviewerStatus/${paperID}/${user.userInfo.id}/3`
+			`https://olad-backend.herokuapp.com/changeReviewerStatus/${paperID}/${user.userInfo.id}/1`
 		);
 		getPapers();
 	};
@@ -36,11 +37,22 @@ export default function Dashboard() {
 			`https://olad-backend.herokuapp.com/changeReviewerStatus/${modalPaper}/${user.userInfo.id}/2`,
 			{ reason: reason }
 		);
+		if (res.data.err !== null) {
+			console.log(res.data.err);
+		}
 		getPapers();
 		setShowModal(false);
 	};
 
-	const finishReview = async () => {};
+	const finishReview = async (paperID) => {
+		const res = await Axios.post(
+			`https://olad-backend.herokuapp.com/changeReviewerStatus/${paperID}/${user.userInfo.id}/3`
+		);
+		if (res.data.err !== null) {
+			console.log(res.data.err);
+		}
+		getPapers();
+	};
 
 	useEffect(() => {
 		getPapers();
@@ -95,9 +107,9 @@ export default function Dashboard() {
 									</Link>
 								</td>
 								<td>{object.title}</td>
-								<td>{object.status}</td>
-								<td>{object.open_review}</td>
-								<td>{object.double_blind}</td>
+								<td>{statusMapPaper[object.status]}</td>
+								<td>{boolMap[object.open_review]}</td>
+								<td>{boolMap[object.double_blind]}</td>
 								<td>{object.link}</td>
 								{pending ? (
 									<React.Fragment>
@@ -116,7 +128,7 @@ export default function Dashboard() {
 											<Button
 												variant="success"
 												onClick={() =>
-													finishReview(object.id)
+													acceptPaper(object.id)
 												}
 											>
 												Accept
@@ -128,7 +140,7 @@ export default function Dashboard() {
 										<Button
 											variant="success"
 											onClick={() =>
-												acceptPaper(object.id)
+												finishReview(object.id)
 											}
 										>
 											Submit review

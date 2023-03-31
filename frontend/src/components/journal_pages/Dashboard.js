@@ -36,14 +36,6 @@ export default function Dashboard() {
 		formData.append("openReview", openReview);
 		formData.append("info", info);
 
-		// const res = await Axios.post("https://olad-backend.herokuapp.com/submitPaper", {
-		// 	journal_id: user.userInfo.id,
-		// 	title: title,
-		// 	openReview: openReview,
-		// 	doubleBlind: doubleBlind,
-		// 	link: link,
-		// 	info: info,
-		// });
 		const res = await Axios.post(
 			"https://olad-backend.herokuapp.com/submitPaper",
 			formData,
