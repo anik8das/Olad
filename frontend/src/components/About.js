@@ -47,6 +47,8 @@ export default function About() {
 					<a
 						className="text-dark"
 						href="https://anik8das.medium.com/peer-review-as-a-service-a-potential-gamechanger-for-science-4989763adcf6"
+						target="_blank"
+						rel="noreferrer"
 					>
 						here
 					</a>{" "}
