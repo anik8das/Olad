@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
+import { roleMap } from "./Constants";
 
 export default function Account() {
 	const { user } = useContext(UserContext);
@@ -16,7 +17,7 @@ export default function Account() {
 					</tr>
 					<tr>
 						<th>Role</th>
-						<td>{user.userRole}</td>
+						<td>{roleMap[user.userRole]}</td>
 					</tr>
 					<tr>
 						<th>Name</th>
@@ -32,8 +33,6 @@ export default function Account() {
 					</tr>
 				</tbody>
 			</Table>
-			<Button variant="secondary">Edit Information</Button>{" "}
-			<Button variant="secondary">Change password</Button>
 		</Container>
 	);
 }

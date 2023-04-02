@@ -16,3 +16,9 @@ export const statusMapReviewer = {
 	2: "Rejected",
 	3: "Completed",
 };
+
+export const roleMap = {
+	0: "Reviewer",
+	1: "Journal",
+	2: "Admin",
+};
