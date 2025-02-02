@@ -13,22 +13,22 @@ This is an MVP for trial runs and hypotheses testing. It uses a React for fronte
 
 ### Home and About pages
 <img width="750" alt="Screenshot 2025-02-01 at 10 17 13 PM" src="https://github.com/user-attachments/assets/2af91108-6ff8-44f5-95a1-f2d3d3115202" />
-<img width="746" alt="Screenshot 2025-02-01 at 10 17 27 PM" src="https://github.com/user-attachments/assets/d1415ed8-ee15-44e0-876e-459d2a584720" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 17 27 PM" src="https://github.com/user-attachments/assets/d1415ed8-ee15-44e0-876e-459d2a584720" />
 
 ### Login and Signup pages
-<img width="746" alt="Screenshot 2025-02-01 at 10 17 43 PM" src="https://github.com/user-attachments/assets/81f36b37-cd43-45cf-a20d-eeaa3d95dd6e" />
-<img width="561" alt="Screenshot 2025-02-01 at 10 18 05 PM" src="https://github.com/user-attachments/assets/ba499a05-e74f-428a-bdb5-540af048c7f6" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 17 43 PM" src="https://github.com/user-attachments/assets/81f36b37-cd43-45cf-a20d-eeaa3d95dd6e" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 18 05 PM" src="https://github.com/user-attachments/assets/ba499a05-e74f-428a-bdb5-540af048c7f6" />
 
 ### Journal pages
-<img width="923" alt="Screenshot 2025-02-01 at 10 18 24 PM" src="https://github.com/user-attachments/assets/fed9b915-aebb-414c-86eb-023ca7a0525d" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 18 24 PM" src="https://github.com/user-attachments/assets/fed9b915-aebb-414c-86eb-023ca7a0525d" />
 
 ### Reviewer pages
-<img width="922" alt="Screenshot 2025-02-01 at 10 18 38 PM" src="https://github.com/user-attachments/assets/37ab5786-360b-4738-a06e-8cc9285dbbdd" />
-<img width="922" alt="Screenshot 2025-02-01 at 10 18 58 PM" src="https://github.com/user-attachments/assets/4f4f90ee-000f-4d8d-b394-db77d63db456" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 18 38 PM" src="https://github.com/user-attachments/assets/37ab5786-360b-4738-a06e-8cc9285dbbdd" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 18 58 PM" src="https://github.com/user-attachments/assets/4f4f90ee-000f-4d8d-b394-db77d63db456" />
 
 ### Admin pages
-<img width="556" alt="Screenshot 2025-02-01 at 10 19 51 PM" src="https://github.com/user-attachments/assets/7e1e1021-751d-415c-8436-e29d7c2dc360" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 19 51 PM" src="https://github.com/user-attachments/assets/7e1e1021-751d-415c-8436-e29d7c2dc360" />
 
 ### Account information pages
-<img width="765" alt="Screenshot 2025-02-01 at 10 20 18 PM" src="https://github.com/user-attachments/assets/04692d25-593d-4851-8db0-3522fa8d111b" />
+<img width="750" alt="Screenshot 2025-02-01 at 10 20 18 PM" src="https://github.com/user-attachments/assets/04692d25-593d-4851-8db0-3522fa8d111b" />
 
